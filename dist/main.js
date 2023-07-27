@@ -1,0 +1,1 @@
+(()=>{"use strict";let t=[];const e=(t,e,o,c)=>({title:t,description:e,dueDate:o,priority:c});function o(e){t.push(e)}const c=e("a","b","c","d"),r=e("x","y","z","w");document.querySelector(".para"),o(c),o(r),t.forEach((t=>{console.log(t)}))})();
