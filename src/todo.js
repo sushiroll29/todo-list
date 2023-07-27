@@ -1,3 +1,5 @@
+import addTaskToDOM from "./DOMmanipulation";
+
 let tasks = [];
 
 const todo = (title, description, dueDate, priority) => {
@@ -15,7 +17,7 @@ function addTaskToList(task) {
 
 function displayTaskList() {
     tasks.forEach(task => {
-        console.log(task);
+        addTaskToDOM(task);
     })
 }
 
