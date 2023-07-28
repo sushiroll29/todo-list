@@ -11,8 +11,7 @@
     margin: 5px 0;
 }
 
-/* .new-task-container {
-    visibility: hidden;
+#new-task-form {
     display: none;
     border: 3px solid red;
-} */
+}
