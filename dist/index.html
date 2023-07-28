@@ -9,9 +9,61 @@
   </head>
   <body>
     <div class="container">
-      <button class="new-task-btn">Add new task</button>
-      <div class="new-task-container">
-        
+      <button id="new-task-btn">Add new task</button>
+      <div id="new-task-container">
+        <div id="new-task-form">
+          <form action="" class="form-container" id="form">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              id="task-title"
+              placeholder="Name your task"
+              required
+            />
+
+            <label for="description">Description</label>
+            <input
+              type="text"
+              id="task-description"
+              placeholder="Describe your task"
+            />
+
+            <label for="date">Due date</label>
+            <input type="date" id="task-duedate"/>
+
+            <fieldset>
+              <legend>Priority</legend>
+              <div id="priority-content">
+                <input
+                  type="radio"
+                  id="priority-low"
+                  value="low"
+                  name="task-priority"
+                />
+                <label for="priority-low">Low</label>
+
+                <input
+                  type="radio"
+                  id="priority-medium"
+                  value="medium"
+                  name="task-priority"
+                />
+                <label for="priority-medium">Medium</label>
+
+                <input
+                  type="radio"
+                  id="priority-high"
+                  value="high"
+                  name="task-priority"
+                />
+                <label for="priority-high">High</label>
+              </div>
+            </fieldset>
+            <div class="form-button">
+                <button type="submit" id="submit-btn">Add</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </body>
