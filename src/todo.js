@@ -1,4 +1,4 @@
-import addTaskToDOM from "./DOMmanipulation";
+import { createTaskContainer } from "./DOMmanipulation";
 
 let tasks = [];
 
@@ -17,7 +17,7 @@ function addTaskToList(task) {
 
 function displayTaskList() {
     tasks.forEach(task => {
-        addTaskToDOM(task);
+        createTaskContainer(task);
     })
 }
 

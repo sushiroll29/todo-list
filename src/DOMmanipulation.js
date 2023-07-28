@@ -1,18 +1,29 @@
-function addTaskToDOM(task) {
+function createTaskContainer(task) {
     const container = document.querySelector('.container');
     const taskContainer = document.createElement('div');
-    taskContainer.classList.add('task-container');
+    taskContainer.classList.add('task-card');
 
-    const taskTitle = document.createElement('p');
-    taskTitle.textContent = `Task: ${task.title}`;
-    const taskDescription = document.createElement('p');
-    taskDescription.textContent = `Description: ${task.description}`;
+    const taskContainerTitle = document.createElement('p');
+    taskContainerTitle.classList.add('task-card-title');
+    taskContainerTitle.textContent = `Task: ${task.title}`;
 
-    taskContainer.appendChild(taskTitle);
-    taskContainer.appendChild(taskDescription);
+    const taskContainerDescription = document.createElement('p');
+    taskContainerDescription.classList.add('task-card-description');
+    taskContainerDescription.textContent = `Description: ${task.description}`;
+
+    const taskContainerDate = document.createElement('p');
+    taskContainerDate.classList.add('task-card-date');
+    taskContainerDate.textContent = `Due date: ${task.dueDate}`;
+
+    const taskContainerPriority = document.createElement('p');
+    taskContainerPriority.classList.add('task-card-priority');
+    taskContainerPriority.textContent = `Priority: ${task.priority}`;
+
+    taskContainer.append(taskContainerTitle, taskContainerDescription, taskContainerDate, taskContainerPriority);
     container.appendChild(taskContainer);
 
     return container;
+
 }
 
-export default addTaskToDOM;
+export { createTaskContainer } ;
