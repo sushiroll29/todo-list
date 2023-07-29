@@ -1,5 +1,6 @@
+import { todo, addTaskToList } from "./todo";
+
 function createTaskContainer(task) {
-  const container = document.querySelector(".container");
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-card");
 
@@ -25,9 +26,13 @@ function createTaskContainer(task) {
     taskContainerDate,
     taskContainerPriority
   );
-  container.appendChild(taskContainer);
 
-  return container;
+  return taskContainer;
+}
+
+function resetTaskContainer() {
+  const container = document.querySelector(".task-card");
+  container.textContent = "";
 }
 
 function addNewTask() {
@@ -42,47 +47,42 @@ function addNewTask() {
   });
 }
 
-function createLabel(labelFor, labelText) {
-  const label = document.createElement("label");
-  label.setAttribute("label", labelFor);
-  label.textContent = labelText;
-
-  return label;
-}
-
-function createInput(inputType, inputId, inputPlaceholder, required) {
-  const input = document.createElement("input");
-  input.setAttribute("type", inputType);
-  input.setAttribute("id", inputId);
-  input.setAttribute("placeholder", inputPlaceholder);
-  required === 1
-    ? input.setAttribute("required", "")
-    : input.removeAttribute("required");
-
-  return input;
-}
-
 function handleFormSubmit(e) {
   e.preventDefault();
+
+  const container = document.querySelector(".container");
 
   const formTaskTitle = document.querySelector("#task-title").value;
   const formTaskDescription = document.querySelector("#task-description").value;
   const formTaskDueDate = document.querySelector("#task-duedate").value;
   const formTaskPriority = document.querySelector(
-    'input[name="task-priority"]:checked'
+    'input[type="radio"]:checked'
   ).value;
-  closeForm();
-  console.log(
+
+const priorities = document.querySelectorAll('input[type="radio"]');
+priorities.forEach(priority => {
+    if(priority.checked) {
+        console.log(priority);
+    }
+})
+
+  //creates the new task using info provided in the form
+  const task = todo(
     formTaskTitle,
     formTaskDescription,
     formTaskDueDate,
     formTaskPriority
   );
+
+  //adds task to task list and updates the active tasks on the DOM
+  addTaskToList(task);
+  container.appendChild(createTaskContainer(task));
+  closeForm();
 }
 
 function clearFormFields() {
-  const textInputs = document.querySelectorAll('input[type="text"]');
-  textInputs.forEach((textInput) => (textInput.value = ""));
+  const form = document.querySelector("#form");
+  form.reset();
 }
 
 function closeForm() {
@@ -91,4 +91,8 @@ function closeForm() {
   formPopup.style.display = "none";
 }
 
-export { createTaskContainer, addNewTask, handleFormSubmit };
+export {
+  createTaskContainer,
+  addNewTask,
+  handleFormSubmit,
+};

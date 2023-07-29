@@ -1,4 +1,4 @@
-import { createTaskContainer } from "./DOMmanipulation";
+import { createTaskContainer, resetTaskContainer } from "./DOMmanipulation";
 
 let tasks = [];
 
@@ -12,12 +12,15 @@ const todo = (title, description, dueDate, priority) => {
 }
 
 function addTaskToList(task) {
-    tasks.push(task);
+    if(!tasks.includes(task)){
+        tasks.push(task);
+    }
+    
 }
 
 function displayTaskList() {
     tasks.forEach(task => {
-        createTaskContainer(task);
+            createTaskContainer(task);
     })
 }
 
