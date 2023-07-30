@@ -1,4 +1,4 @@
-import { todo, addTaskToList } from "./todo";
+import { todo, addTaskToList, getTasks } from "./todo";
 
 function createTaskContainer(task) {
   const taskContainer = document.createElement("div");
@@ -30,26 +30,19 @@ function createTaskContainer(task) {
   return taskContainer;
 }
 
-function resetTaskContainer() {
-  const container = document.querySelector(".task-card");
-  container.textContent = "";
-}
-
 function addNewTask() {
   const formPopup = document.querySelector("#new-task-form");
+
   const newTaskBtn = document.querySelector("#new-task-btn");
 
   newTaskBtn.addEventListener("click", () => {
-    formPopup.style.display = "block";
-
-    const form = document.querySelector("#form");
-    form.addEventListener("submit", (e) => handleFormSubmit(e));
+    openForm();
+    form.addEventListener("submit", handleFormSubmit);
   });
 }
 
 function handleFormSubmit(e) {
   e.preventDefault();
-
   const container = document.querySelector(".container");
 
   const formTaskTitle = document.querySelector("#task-title").value;
@@ -58,13 +51,6 @@ function handleFormSubmit(e) {
   const formTaskPriority = document.querySelector(
     'input[type="radio"]:checked'
   ).value;
-
-const priorities = document.querySelectorAll('input[type="radio"]');
-priorities.forEach(priority => {
-    if(priority.checked) {
-        console.log(priority);
-    }
-})
 
   //creates the new task using info provided in the form
   const task = todo(
@@ -76,23 +62,23 @@ priorities.forEach(priority => {
 
   //adds task to task list and updates the active tasks on the DOM
   addTaskToList(task);
+  console.log(getTasks());
   container.appendChild(createTaskContainer(task));
   closeForm();
 }
 
-function clearFormFields() {
+function openForm() {
   const form = document.querySelector("#form");
+  const formPopup = document.querySelector("#new-task-form");
   form.reset();
+  formPopup.style.display = "block";
 }
 
 function closeForm() {
   const formPopup = document.querySelector("#new-task-form");
-  clearFormFields();
+  const form = document.querySelector("#form");
   formPopup.style.display = "none";
+  form.removeEventListener('submit', handleFormSubmit);
 }
 
-export {
-  createTaskContainer,
-  addNewTask,
-  handleFormSubmit,
-};
+export { createTaskContainer, addNewTask, handleFormSubmit };
