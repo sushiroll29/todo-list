@@ -1,7 +1,11 @@
-import { addNewTask, handleFormInput } from './DOMmanipulation';
-import {todo, addTaskToList, displayTaskList} from './todo';
+import {
+  addNewTask,
+  showTodayTasks,
+  showUpcomingTasks,
+} from "./DOMmanipulation";
 
 addNewTask();
-
+showTodayTasks();
+showUpcomingTasks();
 
 // displayTaskList();

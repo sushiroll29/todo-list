@@ -1,4 +1,10 @@
-import { todo, addTaskToList, getTasks } from "./todo";
+import {
+  todo,
+  addTaskToList,
+  getTasks,
+  getTodayTasks,
+  getUpcomingWeekTasks,
+} from "./todo";
 
 function createTaskContainer(task) {
   const taskContainer = document.createElement("div");
@@ -14,7 +20,7 @@ function createTaskContainer(task) {
 
   const taskContainerDate = document.createElement("p");
   taskContainerDate.classList.add("task-card-date");
-  taskContainerDate.textContent = `Due date: ${task.dueDate}`;
+  taskContainerDate.textContent = `Due date: ${formatDate(task.dueDate)}`;
 
   const taskContainerPriority = document.createElement("p");
   taskContainerPriority.classList.add("task-card-priority");
@@ -31,8 +37,6 @@ function createTaskContainer(task) {
 }
 
 function addNewTask() {
-  const formPopup = document.querySelector("#new-task-form");
-
   const newTaskBtn = document.querySelector("#new-task-btn");
 
   newTaskBtn.addEventListener("click", () => {
@@ -78,7 +82,27 @@ function closeForm() {
   const formPopup = document.querySelector("#new-task-form");
   const form = document.querySelector("#form");
   formPopup.style.display = "none";
-  form.removeEventListener('submit', handleFormSubmit);
+  form.removeEventListener("submit", handleFormSubmit);
 }
 
-export { createTaskContainer, addNewTask, handleFormSubmit };
+function formatDate(date) {
+  return date.slice(0, 10).split("-").reverse().join("/");
+}
+
+function showTodayTasks() {
+  const todayButton = document.querySelector("#time-today");
+  todayButton.addEventListener("click", getTodayTasks);
+}
+
+function showUpcomingTasks() {
+  const todayButton = document.querySelector("#time-upcoming");
+  todayButton.addEventListener("click", getUpcomingWeekTasks);
+}
+
+export {
+  createTaskContainer,
+  addNewTask,
+  handleFormSubmit,
+  showTodayTasks,
+  showUpcomingTasks,
+};
