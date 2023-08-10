@@ -7,5 +7,4 @@ import {
 
 event();
 addNewTask();
-showTodayTasks();
 showUpcomingTasks();

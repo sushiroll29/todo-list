@@ -1,12 +1,14 @@
 import { addDays, format, isWithinInterval } from "date-fns";
 import parseISO from "date-fns/parseISO";
+import { createTaskContainer } from "./DOMmanipulation";
 
 let tasks = [],
   todayTasks = [],
   upcomingTasks = [];
 
-function todo(title, description, dueDate, priority) {
+function todo(id, title, description, dueDate, priority) {
   return {
+    id,
     title,
     description,
     dueDate,
@@ -29,17 +31,21 @@ function getTaskArrayLength() {
   return tasks.length;
 }
 
+// ...
 function getTodayTasks() {
+  const showTasks = document.querySelector(".show-tasks");
   const todayDate = Date.parse(format(new Date(), "yyyy-MM-dd"));
-
-  tasks.forEach((task) => {
+  const allTasks = getTasks();
+  allTasks.forEach((task) => {
     const taskDate = Date.parse(task.dueDate);
     if (todayDate === taskDate) {
-      return task;
-      // console.log(task);
-    }
+      showTasks.appendChild(createTaskContainer(task));
+      return true;
+    } else return false;
   });
 }
+
+function getAllTasks() {}
 
 function getUpcomingWeekTasks() {
   tasks.forEach((task) => {
@@ -59,12 +65,12 @@ function checkNextWeek(date) {
   });
 }
 
-function deleteTask(array, elementId) {
-  array.splice(elementId, 1);
-  //updates the index for each task accordingly after each deletion
-  array.forEach((element, i) => {
-    element.index = i;
-    i++;
+function deleteTask(taskId) {
+  tasks.forEach((task) => {
+    if (task["id"] == taskId) {
+      let index = tasks.indexOf(task);
+      tasks.splice(index, 1);
+    }
   });
 }
 

@@ -6,7 +6,7 @@
   margin: 0;
 }
 
-.task-card {
+.task-container {
     border: 2px solid blue;
     margin: 5px 0;
 }
