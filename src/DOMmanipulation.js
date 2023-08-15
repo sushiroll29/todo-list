@@ -12,6 +12,7 @@ import {
 } from "./todo";
 
 let id = 0;
+let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage() : [];
 
 function createTaskContainer(task) {
   const taskContainer = document.createElement("div");
@@ -81,8 +82,8 @@ function handleFormSubmit(e) {
   );
 
   //adds task to task list and updates the active tasks on the DOM
-  addTaskToList(task);
-  saveTasksToLocalStorage();
+  tasks.push(task);
+  saveTasksToLocalStorage(tasks);
   showTasks.appendChild(createTaskContainer(task));
   closeForm();
 }
@@ -116,7 +117,7 @@ function showUpcomingTasks() {
 
 function showAllTasks() {
   const showTasks = document.querySelector(".show-tasks");
-  let tasks = getTasksFromLocalStorage() ? getTasksFromLocalStorage() : [];
+  // let tasks = localStorage.getItem('tasks') ? getTasksFromLocalStorage() : [];
   tasks.forEach((task) => {
     showTasks.appendChild(createTaskContainer(task));
   });
@@ -135,9 +136,9 @@ function removeTask(e) {
   );
 
   //remove the task from the task array
-  deleteTask(taskId);
+  deleteTask(tasks, taskId);
   //re-stringify the array after removing the task
-  saveTasksToLocalStorage();
+  saveTasksToLocalStorage(tasks);
 }
 
 function findTaskById(array, taskId) {

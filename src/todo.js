@@ -1,11 +1,17 @@
 import { addDays, format, isWithinInterval } from "date-fns";
 import parseISO from "date-fns/parseISO";
 import { createTaskContainer } from "./DOMmanipulation";
-import { saveToLocalStorage, getTasksFromLocalStorage } from "./localStorage";
+import {
+  saveToLocalStorage,
+  getTasksFromLocalStorage,
+  deleteTaskFromLocalStorage,
+} from "./localStorage";
 
-let tasks = [],
-  todayTasks = [],
-  upcomingTasks = [];
+// let tasks = [],
+//   todayTasks = [],
+//   upcomingTasks = [];
+
+let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage() : [];
 
 function todo(id, title, description, dueDate, priority) {
   return {
@@ -24,21 +30,12 @@ function addTaskToList(task) {
   }
 }
 
-function getTasks() {
-  return tasks;
-}
-
-function getTaskArrayLength() {
-  return tasks.length;
-}
-
 // ...
 function getTodayTasks() {
   const showTasks = document.querySelector(".show-tasks");
   const todayDate = Date.parse(format(new Date(), "yyyy-MM-dd"));
-  // const allTasks = getTasks();
-  let allTasks = getTasksFromLocalStorage() ? getTasksFromLocalStorage() : [];
-  allTasks.forEach((task) => {
+  let taskList = getTasksFromLocalStorage();
+  taskList.forEach((task) => {
     const taskDate = Date.parse(task.dueDate);
     if (todayDate === taskDate) {
       showTasks.appendChild(createTaskContainer(task));
@@ -47,14 +44,15 @@ function getTodayTasks() {
   });
 }
 
-function getAllTasks() {}
-
 function getUpcomingWeekTasks() {
-  tasks.forEach((task) => {
+  const showTasks = document.querySelector(".show-tasks");
+  let taskList = getTasksFromLocalStorage();
+  taskList.forEach((task) => {
     const taskDate = parseISO(task.dueDate);
     if (checkNextWeek(taskDate)) {
-      return task;
-    } else return;
+      showTasks.appendChild(createTaskContainer(task));
+      return true;
+    } else return false;
   });
 }
 
@@ -67,21 +65,13 @@ function checkNextWeek(date) {
   });
 }
 
-function deleteTask(taskId) {
-  tasks.forEach((task) => {
+function deleteTask(taskList, taskId) {
+  taskList.forEach((task) => {
     if (task["id"] == taskId) {
-      let index = tasks.indexOf(task);
-      tasks.splice(index, 1);
+      let index = taskList.indexOf(task);
+      taskList.splice(index, 1);
     }
   });
 }
 
-export {
-  todo,
-  addTaskToList,
-  getTasks,
-  getTodayTasks,
-  getUpcomingWeekTasks,
-  deleteTask,
-  getTaskArrayLength,
-};
+export { todo, addTaskToList, getTodayTasks, getUpcomingWeekTasks, deleteTask };

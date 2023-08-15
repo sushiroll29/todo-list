@@ -1,7 +1,4 @@
-import { getTasks } from "./todo";
-
-function saveTasksToLocalStorage() {
-  let tasks = getTasks();
+function saveTasksToLocalStorage(tasks) {
   try {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   } catch (e) {
@@ -13,4 +10,12 @@ function getTasksFromLocalStorage() {
   return JSON.parse(localStorage.getItem("tasks"));
 }
 
-export { saveTasksToLocalStorage, getTasksFromLocalStorage };
+function deleteTaskFromLocalStorage(task) {
+  localStorage.removeItem(task);
+}
+
+export {
+  saveTasksToLocalStorage,
+  getTasksFromLocalStorage,
+  deleteTaskFromLocalStorage,
+};
