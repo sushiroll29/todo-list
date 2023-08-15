@@ -10,8 +10,8 @@ import {
   findTaskById
 } from "./todo";
 
-let id = 0;
 let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage() : [];
+let id = Number(localStorage.getItem("id")) || 0; //make sure id doesn't reset to 0 after page reload
 
 function createTaskContainer(task) {
   const taskContainer = document.createElement("div");
@@ -38,12 +38,17 @@ function createTaskContainer(task) {
   taskContainerDeleteBtn.classList.add("delete-btn");
   taskContainerDeleteBtn.textContent = `Delete`;
 
+  const taskContainerEditBtn = document.createElement("button");
+  taskContainerEditBtn.classList.add("edit-btn");
+  taskContainerEditBtn.textContent = `Edit`;
+
   taskContainer.append(
     taskContainerTitle,
     taskContainerDescription,
     taskContainerDate,
     taskContainerPriority,
-    taskContainerDeleteBtn
+    taskContainerDeleteBtn,
+    taskContainerEditBtn
   );
 
   return taskContainer;
@@ -83,6 +88,7 @@ function handleFormSubmit(e) {
   //adds task to task list and updates the active tasks on the DOM
   tasks.push(task);
   saveTasksToLocalStorage(tasks);
+  localStorage.setItem("id", id);
   showTasks.appendChild(createTaskContainer(task));
   closeForm();
 }
@@ -90,7 +96,7 @@ function handleFormSubmit(e) {
 function openForm() {
   const form = document.querySelector("#form");
   const formPopup = document.querySelector("#new-task-form");
-  form.reset();
+  // form.reset();
   formPopup.style.display = "block";
 }
 
@@ -99,6 +105,7 @@ function closeForm() {
   const form = document.querySelector("#form");
   formPopup.style.display = "none";
   form.removeEventListener("submit", handleFormSubmit);
+  form.reset();
 }
 
 function formatDate(date) {
@@ -123,6 +130,7 @@ function showAllTasks() {
 function removeTask(e) {
   const taskContainers = document.querySelectorAll(".task-container");
   let taskContainersList = Array.from(taskContainers);
+  //find the task that needs to be removed
   const taskId = e.target.parentNode.id;
   let selectedTaskContainer = findTaskById(taskContainersList, taskId);
 
@@ -138,16 +146,41 @@ function removeTask(e) {
   saveTasksToLocalStorage(tasks);
 }
 
+function editTask(e) {
+  const taskId = e.target.parentNode.id;
+  let selectedTask = findTaskById(tasks, taskId);
+  openForm();
+  // populateForm(selectedTask);
+}
+
+function populateForm(taskInfo) {
+  // const form = document.querySelector("#form");
+  const formTaskTitle = document.querySelector("#task-title");
+  const formTaskDescription = document.querySelector("#task-description");
+  const formTaskDueDate = document.querySelector("#task-duedate");
+  // const formTaskPriority = document.querySelector(
+  //   'input[type="radio"]:checked'
+  // );
+
+  formTaskTitle.value = taskInfo.title;
+  formTaskDescription.value = taskInfo.description;
+  // formTaskDueDate.value = taskInfo.dueDate;
+  // formTaskPriority.value = taskInfo.priority;
+}
+
 
 
 function taskContainerEvent(e) {
   const deleteButton = e.target.matches(".delete-btn");
+  const editButton = e.target.matches(".edit-btn");
   const timeToday = e.target.matches("#time-today");
   const timeAll = e.target.matches("#time-all");
   const timeUpcoming = e.target.matches("#time-upcoming");
 
   if (deleteButton) {
     removeTask(e);
+  } else if (editButton) {
+    editTask(e);
   } else if (timeToday) {
     clearScreen();
     showTodayTasks();
