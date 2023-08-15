@@ -4,11 +4,10 @@ import {
 } from "./localStorage";
 import {
   todo,
-  addTaskToList,
-  getTasks,
   getTodayTasks,
   getUpcomingWeekTasks,
   deleteTask,
+  findTaskById
 } from "./todo";
 
 let id = 0;
@@ -111,13 +110,11 @@ function showTodayTasks() {
 }
 
 function showUpcomingTasks() {
-  const todayButton = document.querySelector("#time-upcoming");
-  todayButton.addEventListener("click", getUpcomingWeekTasks);
+  getUpcomingWeekTasks();
 }
 
 function showAllTasks() {
   const showTasks = document.querySelector(".show-tasks");
-  // let tasks = localStorage.getItem('tasks') ? getTasksFromLocalStorage() : [];
   tasks.forEach((task) => {
     showTasks.appendChild(createTaskContainer(task));
   });
@@ -125,13 +122,13 @@ function showAllTasks() {
 
 function removeTask(e) {
   const taskContainers = document.querySelectorAll(".task-container");
-  let taskContainersArr = Array.from(taskContainers);
+  let taskContainersList = Array.from(taskContainers);
   const taskId = e.target.parentNode.id;
-  let selectedTaskContainer = findTaskById(taskContainersArr, taskId);
+  let selectedTaskContainer = findTaskById(taskContainersList, taskId);
 
   //remove the task from DOM
   e.target.parentNode.remove();
-  taskContainersArr = taskContainersArr.filter(
+  taskContainersList = taskContainersList.filter(
     (taskContainer) => taskContainer != selectedTaskContainer
   );
 
@@ -141,15 +138,13 @@ function removeTask(e) {
   saveTasksToLocalStorage(tasks);
 }
 
-function findTaskById(array, taskId) {
-  const selectedTask = array.find((task) => task["id"] == taskId);
-  return selectedTask;
-}
+
 
 function taskContainerEvent(e) {
   const deleteButton = e.target.matches(".delete-btn");
   const timeToday = e.target.matches("#time-today");
   const timeAll = e.target.matches("#time-all");
+  const timeUpcoming = e.target.matches("#time-upcoming");
 
   if (deleteButton) {
     removeTask(e);
@@ -159,13 +154,15 @@ function taskContainerEvent(e) {
   } else if (timeAll) {
     clearScreen();
     showAllTasks();
+  } else if (timeUpcoming) {
+    clearScreen();
+    showUpcomingTasks();
   } else return;
 }
 
-function event() {
-  const container = document.querySelector(".container");
-
-  container.addEventListener("click", taskContainerEvent);
+function pageEvent() {
+  const taskContainer = document.querySelector(".container");
+  taskContainer.addEventListener("click", taskContainerEvent);
 }
 
 function clearScreen() {
@@ -180,5 +177,5 @@ export {
   showAllTasks,
   showUpcomingTasks,
   removeTask,
-  event,
+  pageEvent,
 };

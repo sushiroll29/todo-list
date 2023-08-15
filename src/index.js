@@ -2,10 +2,10 @@ import {
   addNewTask,
   showAllTasks,
   showUpcomingTasks,
-  event,
+  pageEvent,
 } from "./DOMmanipulation";
 
-event();
+pageEvent();
 addNewTask();
 showAllTasks();
 showUpcomingTasks();

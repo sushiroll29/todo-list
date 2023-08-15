@@ -74,4 +74,9 @@ function deleteTask(taskList, taskId) {
   });
 }
 
-export { todo, addTaskToList, getTodayTasks, getUpcomingWeekTasks, deleteTask };
+function findTaskById(taskList, taskId) {
+  const selectedTask = taskList.find((task) => task["id"] == taskId);
+  return selectedTask;
+}
+
+export { todo, addTaskToList, getTodayTasks, getUpcomingWeekTasks, deleteTask, findTaskById };
