@@ -1,6 +1,7 @@
 import { addDays, format, isWithinInterval } from "date-fns";
 import parseISO from "date-fns/parseISO";
 import { createTaskContainer } from "./DOMmanipulation";
+import { saveToLocalStorage, getTasksFromLocalStorage } from "./localStorage";
 
 let tasks = [],
   todayTasks = [],
@@ -35,7 +36,8 @@ function getTaskArrayLength() {
 function getTodayTasks() {
   const showTasks = document.querySelector(".show-tasks");
   const todayDate = Date.parse(format(new Date(), "yyyy-MM-dd"));
-  const allTasks = getTasks();
+  // const allTasks = getTasks();
+  let allTasks = getTasksFromLocalStorage() ? getTasksFromLocalStorage() : [];
   allTasks.forEach((task) => {
     const taskDate = Date.parse(task.dueDate);
     if (todayDate === taskDate) {

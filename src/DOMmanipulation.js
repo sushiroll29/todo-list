@@ -1,11 +1,14 @@
 import {
+  getTasksFromLocalStorage,
+  saveTasksToLocalStorage,
+} from "./localStorage";
+import {
   todo,
   addTaskToList,
   getTasks,
   getTodayTasks,
   getUpcomingWeekTasks,
   deleteTask,
-  getTaskArrayLength,
 } from "./todo";
 
 let id = 0;
@@ -79,7 +82,7 @@ function handleFormSubmit(e) {
 
   //adds task to task list and updates the active tasks on the DOM
   addTaskToList(task);
-  // console.log(getTasks());
+  saveTasksToLocalStorage();
   showTasks.appendChild(createTaskContainer(task));
   closeForm();
 }
@@ -112,9 +115,8 @@ function showUpcomingTasks() {
 }
 
 function showAllTasks() {
-  let tasks = [];
   const showTasks = document.querySelector(".show-tasks");
-  tasks = getTasks();
+  let tasks = getTasksFromLocalStorage() ? getTasksFromLocalStorage() : [];
   tasks.forEach((task) => {
     showTasks.appendChild(createTaskContainer(task));
   });
@@ -124,8 +126,6 @@ function removeTask(e) {
   const taskContainers = document.querySelectorAll(".task-container");
   let taskContainersArr = Array.from(taskContainers);
   const taskId = e.target.parentNode.id;
-  let tasks = getTasks();
-  let selectedTask = findTaskById(tasks, taskId);
   let selectedTaskContainer = findTaskById(taskContainersArr, taskId);
 
   //remove the task from DOM
@@ -134,11 +134,10 @@ function removeTask(e) {
     (taskContainer) => taskContainer != selectedTaskContainer
   );
 
-  //remove the task form the task array
+  //remove the task from the task array
   deleteTask(taskId);
-
-  // console.log(taskContainersArr);
-  // console.log(tasks);
+  //re-stringify the array after removing the task
+  saveTasksToLocalStorage();
 }
 
 function findTaskById(array, taskId) {
@@ -177,7 +176,7 @@ export {
   createTaskContainer,
   addNewTask,
   handleFormSubmit,
-  showTodayTasks,
+  showAllTasks,
   showUpcomingTasks,
   removeTask,
   event,
