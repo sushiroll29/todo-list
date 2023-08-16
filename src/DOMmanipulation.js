@@ -7,7 +7,7 @@ import {
   getTodayTasks,
   getUpcomingWeekTasks,
   deleteTask,
-  findTaskById
+  findTaskById,
 } from "./todo";
 
 let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage() : [];
@@ -150,25 +150,25 @@ function editTask(e) {
   const taskId = e.target.parentNode.id;
   let selectedTask = findTaskById(tasks, taskId);
   openForm();
-  // populateForm(selectedTask);
+  //populate the form with pre-existing task data
+  populateForm(selectedTask);
 }
 
 function populateForm(taskInfo) {
-  // const form = document.querySelector("#form");
   const formTaskTitle = document.querySelector("#task-title");
   const formTaskDescription = document.querySelector("#task-description");
   const formTaskDueDate = document.querySelector("#task-duedate");
-  // const formTaskPriority = document.querySelector(
-  //   'input[type="radio"]:checked'
-  // );
+  const formTaskPriorities = document.querySelectorAll('input[type="radio"]');
 
   formTaskTitle.value = taskInfo.title;
   formTaskDescription.value = taskInfo.description;
-  // formTaskDueDate.value = taskInfo.dueDate;
-  // formTaskPriority.value = taskInfo.priority;
+  formTaskDueDate.value = taskInfo.dueDate;
+  formTaskPriorities.forEach((priority) => {
+    if (taskInfo.priority == priority.value) {
+      priority.checked = true;
+    }
+  });
 }
-
-
 
 function taskContainerEvent(e) {
   const deleteButton = e.target.matches(".delete-btn");
