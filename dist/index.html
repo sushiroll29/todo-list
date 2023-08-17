@@ -10,9 +10,9 @@
   <body>
     <div class="container">
       <button id="new-task-btn">Add new task</button>
-      <div id="new-task-container">
-        <div id="new-task-form">
-          <form action="" class="form-container" id="form">
+      <div id="task-display">
+        <div id="new-task">
+          <form action="" class="form-container" id="new-task-form">
             <label for="title">Title</label>
             <input
               type="text"
@@ -61,6 +61,59 @@
             </fieldset>
             <div class="form-button">
                 <button type="submit" id="submit-btn">Add</button>
+            </div>
+          </form>
+        </div>
+        <div id="edit-task">
+          <form action="" class="form-container" id="edit-task-form">
+            <label for="edit-task-title">Title</label>
+            <input
+              type="text"
+              id="edit-task-title"
+              placeholder="Name your task"
+              required
+            />
+
+            <label for="description">Description</label>
+            <input
+              type="text"
+              id="edit-task-description"
+              placeholder="Describe your task"
+            />
+
+            <label for="date">Due date</label>
+            <input type="date" id="edit-task-duedate"/>
+
+            <fieldset>
+              <legend>Priority</legend>
+              <div id="edit-priority-content">
+                <input
+                  type="radio"
+                  id="priority-low"
+                  value="low"
+                  name="task-priority"
+                />
+                <label for="edit-priority-low">Low</label>
+
+                <input
+                  type="radio"
+                  id="edit-priority-medium"
+                  value="medium"
+                  name="task-priority"
+                />
+                <label for="edit-priority-medium">Medium</label>
+
+                <input
+                  type="radio"
+                  id="edit-priority-high"
+                  value="high"
+                  name="task-priority"
+                />
+                <label for="edit-priority-high">High</label>
+              </div>
+            </fieldset>
+            <div class="form-button">
+                <button type="submit" id="edit-save-btn">Save</button>
             </div>
           </form>
         </div>

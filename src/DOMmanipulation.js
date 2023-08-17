@@ -56,10 +56,11 @@ function createTaskContainer(task) {
 
 function addNewTask() {
   const newTaskBtn = document.querySelector("#new-task-btn");
+  const newTaskForm = document.querySelector("#new-task-form");
 
   newTaskBtn.addEventListener("click", () => {
-    openForm();
-    form.addEventListener("submit", handleFormSubmit);
+    openForm("new-task");
+    newTaskForm.addEventListener("submit", handleFormSubmit, { once: true });
   });
 }
 
@@ -90,21 +91,23 @@ function handleFormSubmit(e) {
   saveTasksToLocalStorage(tasks);
   localStorage.setItem("id", id);
   showTasks.appendChild(createTaskContainer(task));
-  closeForm();
+
+  closeForm("new-task");
+  resetForm("new-task-form");
 }
 
-function openForm() {
-  const form = document.querySelector("#form");
-  const formPopup = document.querySelector("#new-task-form");
-  // form.reset();
+function openForm(formType) {
+  const formPopup = document.querySelector(`#${formType}`);
   formPopup.style.display = "block";
 }
 
-function closeForm() {
-  const formPopup = document.querySelector("#new-task-form");
-  const form = document.querySelector("#form");
+function closeForm(formType) {
+  const formPopup = document.querySelector(`#${formType}`);
   formPopup.style.display = "none";
-  form.removeEventListener("submit", handleFormSubmit);
+}
+
+function resetForm(formId) {
+  const form = document.querySelector(`#${formId}`);
   form.reset();
 }
 
@@ -149,33 +152,61 @@ function removeTask(e) {
 function editTask(e) {
   const taskId = e.target.parentNode.id;
   let selectedTask = findTaskById(tasks, taskId);
-  openForm();
-  //populate the form with pre-existing task data
+  const editForm = document.querySelector("#edit-task-form");
+  openForm("edit-task");
   populateForm(selectedTask);
+  handleEditForm(selectedTask);
 }
 
 function populateForm(taskInfo) {
-  const formTaskTitle = document.querySelector("#task-title");
-  const formTaskDescription = document.querySelector("#task-description");
-  const formTaskDueDate = document.querySelector("#task-duedate");
-  const formTaskPriorities = document.querySelectorAll('input[type="radio"]');
+  const initialTaskTitle = document.querySelector("#edit-task-title");
+  const initialTaskDescription = document.querySelector(
+    "#edit-task-description"
+  );
+  const initialTaskDueDate = document.querySelector("#edit-task-duedate");
+  const taskPriorities = document.querySelectorAll('input[type="radio"]');
 
-  formTaskTitle.value = taskInfo.title;
-  formTaskDescription.value = taskInfo.description;
-  formTaskDueDate.value = taskInfo.dueDate;
-  formTaskPriorities.forEach((priority) => {
+  initialTaskTitle.value = taskInfo.title;
+  initialTaskDescription.value = taskInfo.description;
+  initialTaskDueDate.value = taskInfo.dueDate;
+  taskPriorities.forEach((priority) => {
     if (taskInfo.priority == priority.value) {
       priority.checked = true;
     }
   });
 }
 
+function handleEditForm(taskInfo) {
+  const editForm = document.querySelector("#edit-task-form");
+  editForm.addEventListener(
+    "submit",
+    (e) => {
+      e.preventDefault();
+
+      const newTaskTitle = document.querySelector("#edit-task-title").value;
+      const newTaskDescription = document.querySelector(
+        "#edit-task-description"
+      ).value;
+      const newTaskDueDate = document.querySelector("#edit-task-duedate").value;
+      taskInfo.title = newTaskTitle;
+      taskInfo.description = newTaskDescription;
+      taskInfo.dueDate = newTaskDueDate;
+
+      saveTasksToLocalStorage(tasks);
+      closeForm("edit-task");
+      clearScreen();
+      showAllTasks();
+    },
+    { once: true }
+  );
+}
+
 function taskContainerEvent(e) {
   const deleteButton = e.target.matches(".delete-btn");
   const editButton = e.target.matches(".edit-btn");
   const timeToday = e.target.matches("#time-today");
-  const timeAll = e.target.matches("#time-all");
   const timeUpcoming = e.target.matches("#time-upcoming");
+  const timeAll = e.target.matches("#time-all");
 
   if (deleteButton) {
     removeTask(e);

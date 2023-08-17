@@ -11,7 +11,12 @@
     margin: 5px 0;
 }
 
-#new-task-form {
+#new-task {
     display: none;
     border: 3px solid red;
+}
+
+#edit-task {
+  display: none;
+  border: 3px solid greenyellow;
 }
