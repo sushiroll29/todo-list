@@ -96,12 +96,13 @@ function handleFormSubmit(e) {
 
   //adds task to task list and updates the active tasks on the DOM
   tasks.push(task);
+  sortTasksByDate();
   //tasks get sorted by date every time a new one is added to the list
-  tasks.sort(function sortByDate(a, b) {
-    const dateA = new Date(a.dueDate);
-    const dateB = new Date(b.dueDate);
-    return dateA - dateB;
-  });
+  // tasks.sort(function sortByDate(a, b) {
+  //   const dateA = new Date(a.dueDate);
+  //   const dateB = new Date(b.dueDate);
+  //   return dateA - dateB;
+  // });
   saveTasksToLocalStorage(tasks);
   localStorage.setItem("id", id);
   showTasks.appendChild(createTaskContainer(task));
@@ -232,8 +233,8 @@ function handleEditForm(taskInfo) {
       taskInfo.priority = newTaskPriority;
 
       saveTasksToLocalStorage(tasks);
+      sortTasksByDate();
       closeForm("edit-task");
-      clearScreen();
       showAllTasks();
     },
     { once: true }
@@ -279,6 +280,14 @@ function setActiveTab(tab) {
 
   const currActive = document.querySelector(`${tab}`);
   currActive.classList.add("active");
+}
+
+function sortTasksByDate() {
+  tasks.sort(function sortByDate(a, b) {
+    const dateA = new Date(a.dueDate);
+    const dateB = new Date(b.dueDate);
+    return dateA - dateB;
+  });
 }
 
 export {
