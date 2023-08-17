@@ -154,7 +154,9 @@ function editTask(e) {
   let selectedTask = findTaskById(tasks, taskId);
   const editForm = document.querySelector("#edit-task-form");
   openForm("edit-task");
+  //fill in form inputs with existing info
   populateForm(selectedTask);
+  //update the task based on the new input values
   handleEditForm(selectedTask);
 }
 
@@ -188,9 +190,18 @@ function handleEditForm(taskInfo) {
         "#edit-task-description"
       ).value;
       const newTaskDueDate = document.querySelector("#edit-task-duedate").value;
+      let newTaskPriority = "";
+      const taskPriorities = document.querySelectorAll('input[type="radio"]');
+      taskPriorities.forEach((priority) => {
+        if (priority.checked) {
+          newTaskPriority = priority.value;
+        }
+      });
+
       taskInfo.title = newTaskTitle;
       taskInfo.description = newTaskDescription;
       taskInfo.dueDate = newTaskDueDate;
+      taskInfo.priority = newTaskPriority;
 
       saveTasksToLocalStorage(tasks);
       closeForm("edit-task");
