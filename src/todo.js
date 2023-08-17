@@ -79,4 +79,15 @@ function findTaskById(taskList, taskId) {
   return selectedTask;
 }
 
-export { todo, addTaskToList, getTodayTasks, getUpcomingWeekTasks, deleteTask, findTaskById };
+function getPriorityTasks(priorityType) {
+  const showTasks = document.querySelector(".show-tasks");
+  let taskList = getTasksFromLocalStorage();
+
+  taskList.forEach(task => {
+    if(task.priority === `${priorityType}`) {
+      showTasks.appendChild(createTaskContainer(task));
+    }
+  })
+}
+
+export { todo, addTaskToList, getTodayTasks, getUpcomingWeekTasks, deleteTask, findTaskById, getPriorityTasks };

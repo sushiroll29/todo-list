@@ -8,6 +8,7 @@ import {
   getUpcomingWeekTasks,
   deleteTask,
   findTaskById,
+  getPriorityTasks
 } from "./todo";
 
 let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage() : [];
@@ -151,6 +152,14 @@ function showAllTasks() {
   });
 }
 
+function showPriorityTasks(priorityType) {
+  clearScreen();
+  setActiveTab(`#${priorityType}-priority`);
+  getPriorityTasks(`${priorityType}`);
+}
+
+
+
 function removeTask(e) {
   const taskContainers = document.querySelectorAll(".task-container");
   let taskContainersList = Array.from(taskContainers);
@@ -247,6 +256,10 @@ function taskContainerEvent(e) {
   const timeToday = e.target.matches("#time-today");
   const timeUpcoming = e.target.matches("#time-upcoming");
   const timeAll = e.target.matches("#time-all");
+  const priorityLow = e.target.matches("#low-priority");
+  const priorityMedium = e.target.matches("#medium-priority");
+  const priorityHigh = e.target.matches("#high-priority");
+
 
   if (deleteButton) {
     removeTask(e);
@@ -258,6 +271,12 @@ function taskContainerEvent(e) {
     showAllTasks();
   } else if (timeUpcoming) {
     showUpcomingTasks();
+  } else if (priorityLow) {
+    showPriorityTasks('low');
+  } else if (priorityMedium) {
+    showPriorityTasks('medium');
+  } else if (priorityHigh) {
+    showPriorityTasks('high');
   } else return;
 }
 
