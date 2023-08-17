@@ -20,3 +20,7 @@
   display: none;
   border: 3px solid greenyellow;
 }
+
+.active {
+  background-color: green;
+}

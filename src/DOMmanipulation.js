@@ -57,9 +57,17 @@ function createTaskContainer(task) {
 function addNewTask() {
   const newTaskBtn = document.querySelector("#new-task-btn");
   const newTaskForm = document.querySelector("#new-task-form");
+  const cancelButton = newTaskForm.querySelector("#cancel-btn");
 
   newTaskBtn.addEventListener("click", () => {
     openForm("new-task");
+    cancelButton.addEventListener(
+      "click",
+      () => {
+        closeForm("new-task");
+      },
+      { once: true }
+    );
     newTaskForm.addEventListener("submit", handleFormSubmit, { once: true });
   });
 }
@@ -88,12 +96,18 @@ function handleFormSubmit(e) {
 
   //adds task to task list and updates the active tasks on the DOM
   tasks.push(task);
+  //tasks get sorted by date every time a new one is added to the list
+  tasks.sort(function sortByDate(a, b) {
+    const dateA = new Date(a.dueDate);
+    const dateB = new Date(b.dueDate);
+    return dateA - dateB;
+  });
   saveTasksToLocalStorage(tasks);
   localStorage.setItem("id", id);
   showTasks.appendChild(createTaskContainer(task));
-
   closeForm("new-task");
   resetForm("new-task-form");
+  showAllTasks();
 }
 
 function openForm(formType) {
@@ -116,14 +130,20 @@ function formatDate(date) {
 }
 
 function showTodayTasks() {
+  clearScreen();
+  setActiveTab("#time-today");
   getTodayTasks();
 }
 
 function showUpcomingTasks() {
+  clearScreen();
+  setActiveTab("#time-upcoming");
   getUpcomingWeekTasks();
 }
 
 function showAllTasks() {
+  clearScreen();
+  setActiveTab("#time-all");
   const showTasks = document.querySelector(".show-tasks");
   tasks.forEach((task) => {
     showTasks.appendChild(createTaskContainer(task));
@@ -153,6 +173,14 @@ function editTask(e) {
   const taskId = e.target.parentNode.id;
   let selectedTask = findTaskById(tasks, taskId);
   const editForm = document.querySelector("#edit-task-form");
+  const cancelButton = editForm.querySelector("#cancel-btn");
+  cancelButton.addEventListener(
+    "click",
+    () => {
+      closeForm("edit-task");
+    },
+    { once: true }
+  );
   openForm("edit-task");
   //fill in form inputs with existing info
   populateForm(selectedTask);
@@ -224,18 +252,16 @@ function taskContainerEvent(e) {
   } else if (editButton) {
     editTask(e);
   } else if (timeToday) {
-    clearScreen();
     showTodayTasks();
   } else if (timeAll) {
-    clearScreen();
     showAllTasks();
   } else if (timeUpcoming) {
-    clearScreen();
     showUpcomingTasks();
   } else return;
 }
 
 function pageEvent() {
+  setActiveTab("#time-all");
   const taskContainer = document.querySelector(".container");
   taskContainer.addEventListener("click", taskContainerEvent);
 }
@@ -243,6 +269,16 @@ function pageEvent() {
 function clearScreen() {
   const showTasks = document.querySelector(".show-tasks");
   showTasks.textContent = "";
+}
+
+function setActiveTab(tab) {
+  if (document.querySelector(".active")) {
+    const lastActive = document.querySelector(".active");
+    lastActive.classList.remove("active");
+  }
+
+  const currActive = document.querySelector(`${tab}`);
+  currActive.classList.add("active");
 }
 
 export {
