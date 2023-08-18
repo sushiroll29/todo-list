@@ -9,6 +9,7 @@
 .task-container {
     border: 2px solid blue;
     margin: 5px 0;
+    padding: 1rem;
 }
 
 #new-task {
@@ -27,4 +28,20 @@
 
 .completed {
   display: none;
+}
+
+.container {
+  display: flex;
+  gap: 5rem;
+  padding: 1rem;
+}
+
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+ul{
+  list-style: none;
 }

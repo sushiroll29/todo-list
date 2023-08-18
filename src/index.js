@@ -5,5 +5,5 @@ import {
 } from "./DOMmanipulation";
 
 pageEvent();
-addNewTask();
+// addNewTask();
 showActiveTasks();

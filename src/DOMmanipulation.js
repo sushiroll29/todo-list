@@ -169,6 +169,7 @@ function showUpcomingTasks() {
 function showActiveTasks() {
   clearScreen();
   setActiveTab("#time-active");
+  
   const showTasks = document.querySelector(".show-tasks");
   tasks.forEach((task) => {
     if(!task.completed) {
@@ -176,6 +177,7 @@ function showActiveTasks() {
     }
     
   });
+  addNewTask();
 }
 
 function showPriorityTasks(priorityType) {
@@ -289,7 +291,7 @@ function showCompletedTasks() {
 
 }
 
-function taskContainerEvent(e) {
+function handlePageEvent(e) {
   const deleteButton = e.target.matches(".delete-btn");
   const editButton = e.target.matches(".edit-btn");
   const markCompleteButton = e.target.matches(".complete-btn");
@@ -329,8 +331,8 @@ function taskContainerEvent(e) {
 
 function pageEvent() {
   setActiveTab("#time-active");
-  const taskContainer = document.querySelector(".container");
-  taskContainer.addEventListener("click", taskContainerEvent);
+  const page = document.querySelector(".container");
+  page.addEventListener("click", handlePageEvent);
 }
 
 function clearScreen() {

@@ -7,9 +7,6 @@ import {
   deleteTaskFromLocalStorage,
 } from "./localStorage";
 
-// let tasks = [],
-//   todayTasks = [],
-//   upcomingTasks = [];
 
 let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage("tasks") : [];
 
