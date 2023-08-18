@@ -62,7 +62,7 @@ function createTaskContainer(task) {
   );
   } else {
     const taskContainerUnmarkCompleteBtn = document.createElement("button");
-  taskContainerUnmarkCompleteBtn.classList.add("uncomplete-btn");
+  taskContainerUnmarkCompleteBtn.classList.add("unmark-complete-btn");
   taskContainerUnmarkCompleteBtn.textContent = `Unmark completed`;
 
   const taskContainerDeleteBtn = document.createElement("button");
@@ -274,10 +274,10 @@ function handleEditForm(taskInfo) {
   );
 }
 
-function markComplete(e) {
+function toggleComplete(e, status) {
   const taskId = e.target.parentNode.id;
   let selectedTask = findTaskById(tasks, taskId);
-  selectedTask.completed = true;
+  selectedTask.completed = status;
   e.target.parentNode.remove();
   saveTasksToLocalStorage(tasks);
 }
@@ -293,6 +293,7 @@ function taskContainerEvent(e) {
   const deleteButton = e.target.matches(".delete-btn");
   const editButton = e.target.matches(".edit-btn");
   const markCompleteButton = e.target.matches(".complete-btn");
+  const unmarkCompleteButton = e.target.matches(".unmark-complete-btn");
   const timeToday = e.target.matches("#time-today");
   const timeUpcoming = e.target.matches("#time-upcoming");
   const timeAll = e.target.matches("#time-active");
@@ -306,7 +307,9 @@ function taskContainerEvent(e) {
   } else if (editButton) {
     editTask(e);
   } else if (markCompleteButton) {
-    markComplete(e);
+    toggleComplete(e, true);
+  } else if (unmarkCompleteButton) {
+    toggleComplete(e, false);
   } else if (timeToday) {
     showTodayTasks();
   } else if (timeAll) {
