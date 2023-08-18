@@ -8,11 +8,14 @@ import {
   getUpcomingWeekTasks,
   deleteTask,
   findTaskById,
-  getPriorityTasks
+  getPriorityTasks,
+  getCompletedTasks
+  
 } from "./todo";
 
-let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage() : [];
+let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage("tasks") : [];
 let id = Number(localStorage.getItem("id")) || 0; //make sure id doesn't reset to 0 after page reload
+// let completedTasks = localStorage.getItem("completedTasks") ? getTasksFromLocalStorage("completedTasks") : [];
 
 function createTaskContainer(task) {
   const taskContainer = document.createElement("div");
@@ -35,21 +38,26 @@ function createTaskContainer(task) {
   taskContainerPriority.classList.add("task-container-priority");
   taskContainerPriority.textContent = `Priority: ${task.priority}`;
 
-  const taskContainerDeleteBtn = document.createElement("button");
-  taskContainerDeleteBtn.classList.add("delete-btn");
-  taskContainerDeleteBtn.textContent = `Delete`;
+  const taskContainerCompleteBtn = document.createElement("button");
+  taskContainerCompleteBtn.classList.add("complete-btn");
+  taskContainerCompleteBtn.textContent = `Mark completed`;
 
   const taskContainerEditBtn = document.createElement("button");
   taskContainerEditBtn.classList.add("edit-btn");
   taskContainerEditBtn.textContent = `Edit`;
+
+  const taskContainerDeleteBtn = document.createElement("button");
+  taskContainerDeleteBtn.classList.add("delete-btn");
+  taskContainerDeleteBtn.textContent = `Delete`;
 
   taskContainer.append(
     taskContainerTitle,
     taskContainerDescription,
     taskContainerDate,
     taskContainerPriority,
-    taskContainerDeleteBtn,
-    taskContainerEditBtn
+    taskContainerCompleteBtn,
+    taskContainerEditBtn,
+    taskContainerDeleteBtn
   );
 
   return taskContainer;
@@ -97,19 +105,14 @@ function handleFormSubmit(e) {
 
   //adds task to task list and updates the active tasks on the DOM
   tasks.push(task);
-  sortTasksByDate();
   //tasks get sorted by date every time a new one is added to the list
-  // tasks.sort(function sortByDate(a, b) {
-  //   const dateA = new Date(a.dueDate);
-  //   const dateB = new Date(b.dueDate);
-  //   return dateA - dateB;
-  // });
+  sortTasksByDate();
   saveTasksToLocalStorage(tasks);
   localStorage.setItem("id", id);
   showTasks.appendChild(createTaskContainer(task));
   closeForm("new-task");
   resetForm("new-task-form");
-  showAllTasks();
+  showActiveTasks();
 }
 
 function openForm(formType) {
@@ -143,12 +146,15 @@ function showUpcomingTasks() {
   getUpcomingWeekTasks();
 }
 
-function showAllTasks() {
+function showActiveTasks() {
   clearScreen();
-  setActiveTab("#time-all");
+  setActiveTab("#time-active");
   const showTasks = document.querySelector(".show-tasks");
   tasks.forEach((task) => {
-    showTasks.appendChild(createTaskContainer(task));
+    if(!task.completed) {
+      showTasks.appendChild(createTaskContainer(task));
+    }
+    
   });
 }
 
@@ -157,8 +163,6 @@ function showPriorityTasks(priorityType) {
   setActiveTab(`#${priorityType}-priority`);
   getPriorityTasks(`${priorityType}`);
 }
-
-
 
 function removeTask(e) {
   const taskContainers = document.querySelectorAll(".task-container");
@@ -244,44 +248,64 @@ function handleEditForm(taskInfo) {
       saveTasksToLocalStorage(tasks);
       sortTasksByDate();
       closeForm("edit-task");
-      showAllTasks();
+      showActiveTasks();
     },
     { once: true }
   );
 }
 
+function markComplete(e) {
+  const taskId = e.target.parentNode.id;
+  let selectedTask = findTaskById(tasks, taskId);
+  selectedTask.completed = true;
+  e.target.parentNode.remove();
+  saveTasksToLocalStorage(tasks);
+}
+
+function showCompletedTasks() {
+  clearScreen();
+  setActiveTab("#completed");
+  getCompletedTasks();
+
+}
+
 function taskContainerEvent(e) {
   const deleteButton = e.target.matches(".delete-btn");
   const editButton = e.target.matches(".edit-btn");
+  const markCompleteButton = e.target.matches(".complete-btn");
   const timeToday = e.target.matches("#time-today");
   const timeUpcoming = e.target.matches("#time-upcoming");
-  const timeAll = e.target.matches("#time-all");
+  const timeAll = e.target.matches("#time-active");
+  const completed = e.target.matches("#completed");
   const priorityLow = e.target.matches("#low-priority");
   const priorityMedium = e.target.matches("#medium-priority");
   const priorityHigh = e.target.matches("#high-priority");
-
 
   if (deleteButton) {
     removeTask(e);
   } else if (editButton) {
     editTask(e);
+  } else if (markCompleteButton) {
+    markComplete(e);
   } else if (timeToday) {
     showTodayTasks();
   } else if (timeAll) {
-    showAllTasks();
+    showActiveTasks();
   } else if (timeUpcoming) {
     showUpcomingTasks();
+  } else if (completed) {
+    showCompletedTasks();
   } else if (priorityLow) {
-    showPriorityTasks('low');
+    showPriorityTasks("low");
   } else if (priorityMedium) {
-    showPriorityTasks('medium');
+    showPriorityTasks("medium");
   } else if (priorityHigh) {
-    showPriorityTasks('high');
+    showPriorityTasks("high");
   } else return;
 }
 
 function pageEvent() {
-  setActiveTab("#time-all");
+  setActiveTab("#time-active");
   const taskContainer = document.querySelector(".container");
   taskContainer.addEventListener("click", taskContainerEvent);
 }
@@ -313,7 +337,7 @@ export {
   createTaskContainer,
   addNewTask,
   handleFormSubmit,
-  showAllTasks,
+  showActiveTasks,
   showUpcomingTasks,
   removeTask,
   pageEvent,

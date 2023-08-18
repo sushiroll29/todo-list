@@ -11,15 +11,16 @@ import {
 //   todayTasks = [],
 //   upcomingTasks = [];
 
-let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage() : [];
+let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage("tasks") : [];
 
-function todo(id, title, description, dueDate, priority) {
+function todo(id, title, description, dueDate, priority, completed) {
   return {
     id,
     title,
     description,
     dueDate,
     priority,
+    completed: false
   };
 }
 
@@ -34,7 +35,7 @@ function addTaskToList(task) {
 function getTodayTasks() {
   const showTasks = document.querySelector(".show-tasks");
   const todayDate = Date.parse(format(new Date(), "yyyy-MM-dd"));
-  let taskList = getTasksFromLocalStorage();
+  let taskList = getTasksFromLocalStorage("tasks");
   taskList.forEach((task) => {
     const taskDate = Date.parse(task.dueDate);
     if (todayDate === taskDate) {
@@ -46,7 +47,7 @@ function getTodayTasks() {
 
 function getUpcomingWeekTasks() {
   const showTasks = document.querySelector(".show-tasks");
-  let taskList = getTasksFromLocalStorage();
+  let taskList = getTasksFromLocalStorage("tasks");
   taskList.forEach((task) => {
     const taskDate = parseISO(task.dueDate);
     if (checkNextWeek(taskDate)) {
@@ -81,7 +82,7 @@ function findTaskById(taskList, taskId) {
 
 function getPriorityTasks(priorityType) {
   const showTasks = document.querySelector(".show-tasks");
-  let taskList = getTasksFromLocalStorage();
+  let taskList = getTasksFromLocalStorage("tasks");
 
   taskList.forEach(task => {
     if(task.priority === `${priorityType}`) {
@@ -90,4 +91,15 @@ function getPriorityTasks(priorityType) {
   })
 }
 
-export { todo, addTaskToList, getTodayTasks, getUpcomingWeekTasks, deleteTask, findTaskById, getPriorityTasks };
+function getCompletedTasks() {
+  const showTasks = document.querySelector(".show-tasks");
+  let taskList = getTasksFromLocalStorage("tasks");
+
+  taskList.forEach(task => {
+    if(task.completed) {
+      showTasks.appendChild(createTaskContainer(task));
+    }
+  })
+}
+
+export { todo, addTaskToList, getTodayTasks, getUpcomingWeekTasks, deleteTask, findTaskById, getPriorityTasks, getCompletedTasks };

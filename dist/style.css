@@ -24,3 +24,7 @@
 .active {
   background-color: green;
 }
+
+.completed {
+  display: none;
+}

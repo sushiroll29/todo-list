@@ -1,9 +1,9 @@
 import {
   addNewTask,
-  showAllTasks,
+  showActiveTasks,
   pageEvent,
 } from "./DOMmanipulation";
 
 pageEvent();
 addNewTask();
-showAllTasks();
+showActiveTasks();
