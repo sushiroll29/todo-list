@@ -50,7 +50,7 @@ function getUpcomingWeekTasks() {
   let taskList = getTasksFromLocalStorage("tasks");
   taskList.forEach((task) => {
     const taskDate = parseISO(task.dueDate);
-    if (checkNextWeek(taskDate)) {
+    if (!task.completed && checkNextWeek(taskDate)) {
       showTasks.appendChild(createTaskContainer(task));
       return true;
     } else return false;
@@ -85,7 +85,7 @@ function getPriorityTasks(priorityType) {
   let taskList = getTasksFromLocalStorage("tasks");
 
   taskList.forEach(task => {
-    if(task.priority === `${priorityType}`) {
+    if(!task.completed && task.priority === `${priorityType}`) {
       showTasks.appendChild(createTaskContainer(task));
     }
   })

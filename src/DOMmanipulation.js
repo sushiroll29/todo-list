@@ -38,7 +38,8 @@ function createTaskContainer(task) {
   taskContainerPriority.classList.add("task-container-priority");
   taskContainerPriority.textContent = `Priority: ${task.priority}`;
 
-  const taskContainerCompleteBtn = document.createElement("button");
+  if(!task.completed) {
+    const taskContainerCompleteBtn = document.createElement("button");
   taskContainerCompleteBtn.classList.add("complete-btn");
   taskContainerCompleteBtn.textContent = `Mark completed`;
 
@@ -59,6 +60,25 @@ function createTaskContainer(task) {
     taskContainerEditBtn,
     taskContainerDeleteBtn
   );
+  } else {
+    const taskContainerUnmarkCompleteBtn = document.createElement("button");
+  taskContainerUnmarkCompleteBtn.classList.add("uncomplete-btn");
+  taskContainerUnmarkCompleteBtn.textContent = `Unmark completed`;
+
+  const taskContainerDeleteBtn = document.createElement("button");
+  taskContainerDeleteBtn.classList.add("delete-btn");
+  taskContainerDeleteBtn.textContent = `Delete`;
+
+  taskContainer.append(
+    taskContainerTitle,
+    taskContainerDescription,
+    taskContainerDate,
+    taskContainerPriority,
+    taskContainerUnmarkCompleteBtn,
+    taskContainerDeleteBtn
+  );
+  }
+  
 
   return taskContainer;
 }
