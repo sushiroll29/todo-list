@@ -9,7 +9,27 @@
   </head>
   <body>
     <div class="container">
-      <button id="new-task-btn">Add new task</button>
+      <div id="sidebar">
+        <ul class="task-content">Tasks
+          <li><button class="task-filter" id="time-active">Active</button></li>
+          <li><button class="task-filter" id="time-today">Today</button></li>
+          <li>
+            <button class="task-filter" id="time-upcoming">Upcoming</button>
+          </li>
+          <li><button class="task-filter" id="completed">Completed</button></li>
+          <li><button id="new-task-btn">Add new task</button></li>
+        </ul>
+        <ul class="sticky-content"><button class="task-filter" id="sticky-wall">Sticky wall</button>
+       
+        </ul>
+        <ul class="priority">Priority
+          <li><button class="task-filter" id="low-priority">Low</button></li>
+          <li>
+            <button class="task-filter" id="medium-priority">Medium</button>
+          </li>
+          <li><button class="task-filter" id="high-priority">High</button></li>
+        </ul>
+      </div>
       <div id="task-display">
         <div id="new-task">
           <form action="" class="form-container" id="new-task-form">
@@ -29,7 +49,7 @@
             />
 
             <label for="date">Due date</label>
-            <input type="date" id="task-duedate"/>
+            <input type="date" id="task-duedate" />
 
             <fieldset>
               <legend>Priority</legend>
@@ -60,8 +80,8 @@
               </div>
             </fieldset>
             <div class="form-button">
-                <button type="submit" id="submit-btn">Add</button>
-                <button type="button" id="cancel-btn">Cancel</button>
+              <button type="submit" id="submit-btn">Add</button>
+              <button type="button" id="cancel-btn">Cancel</button>
             </div>
           </form>
         </div>
@@ -83,7 +103,7 @@
             />
 
             <label for="date">Due date</label>
-            <input type="date" id="edit-task-duedate"/>
+            <input type="date" id="edit-task-duedate" />
 
             <fieldset>
               <legend>Priority</legend>
@@ -114,21 +134,16 @@
               </div>
             </fieldset>
             <div class="form-button">
-                <button type="submit" id="edit-save-btn">Save</button>
-                <button type="button" id="cancel-btn">Cancel</button>
+              <button type="submit" id="edit-save-btn">Save</button>
+              <button type="button" id="cancel-btn">Cancel</button>
             </div>
           </form>
         </div>
       </div>
-      <button class="task-filter" id="time-active">Active</button>
-      <button class="task-filter" id="time-today">Today</button>
-      <button class="task-filter" id="time-upcoming">Upcoming</button>
-      <button class="task-filter" id="completed">Completed</button>
-      <button class="task-filter" id="low-priority">Low</button>
-      <button class="task-filter" id="medium-priority">Medium</button>
-      <button class="task-filter" id="high-priority">High</button>
 
-      <div class="show-tasks"></div>
+      <div class="show-tasks">
+        <!-- <button id="new-task-btn">Add new task</button> -->
+      </div>
     </div>
   </body>
 </html>
