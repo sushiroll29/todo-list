@@ -1,6 +1,6 @@
 import {
-  getTasksFromLocalStorage,
-  saveTasksToLocalStorage,
+  getFromLocalStorage,
+  saveToLocalStorage,
 } from "./localStorage";
 import {
   todo,
@@ -13,9 +13,9 @@ import {
   
 } from "./todo";
 
-let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage("tasks") : [];
-let id = Number(localStorage.getItem("id")) || 0; //make sure id doesn't reset to 0 after page reload
-// let completedTasks = localStorage.getItem("completedTasks") ? getTasksFromLocalStorage("completedTasks") : [];
+let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
+let taskId = Number(localStorage.getItem("taskId")) || 0; //make sure id doesn't reset to 0 after page reload
+
 
 function createTaskContainer(task) {
   const taskContainer = document.createElement("div");
@@ -86,7 +86,7 @@ function createTaskContainer(task) {
 function addNewTask() {
   const newTaskBtn = document.querySelector("#new-task-btn");
   const newTaskForm = document.querySelector("#new-task-form");
-  const cancelButton = newTaskForm.querySelector("#cancel-btn");
+  const cancelButton = newTaskForm.querySelector("#cancel-task-btn");
 
   newTaskBtn.addEventListener("click", () => {
     openForm("new-task");
@@ -105,8 +105,8 @@ function handleFormSubmit(e) {
   e.preventDefault();
   const showTasks = document.querySelector(".show-tasks");
 
-  const itemId = id;
-  id++;
+  const itemId = taskId;
+  taskId++;
   const formTaskTitle = document.querySelector("#task-title").value;
   const formTaskDescription = document.querySelector("#task-description").value;
   const formTaskDueDate = document.querySelector("#task-duedate").value;
@@ -127,8 +127,8 @@ function handleFormSubmit(e) {
   tasks.push(task);
   //tasks get sorted by date every time a new one is added to the list
   sortTasksByDate();
-  saveTasksToLocalStorage(tasks);
-  localStorage.setItem("id", id);
+  saveToLocalStorage("tasks", tasks);
+  localStorage.setItem("taskId", taskId);
   showTasks.appendChild(createTaskContainer(task));
   closeForm("new-task");
   resetForm("new-task-form");
@@ -202,14 +202,14 @@ function removeTask(e) {
   //remove the task from the task array
   deleteTask(tasks, taskId);
   //re-stringify the array after removing the task
-  saveTasksToLocalStorage(tasks);
+  saveToLocalStorage("tasks", tasks);
 }
 
 function editTask(e) {
   const taskId = e.target.parentNode.id;
   let selectedTask = findTaskById(tasks, taskId);
   const editForm = document.querySelector("#edit-task-form");
-  const cancelButton = editForm.querySelector("#cancel-btn");
+  const cancelButton = editForm.querySelector("#cancel-edit-btn");
   cancelButton.addEventListener(
     "click",
     () => {
@@ -267,7 +267,7 @@ function handleEditForm(taskInfo) {
       taskInfo.dueDate = newTaskDueDate;
       taskInfo.priority = newTaskPriority;
 
-      saveTasksToLocalStorage(tasks);
+      saveToLocalStorage("tasks", tasks);
       sortTasksByDate();
       closeForm("edit-task");
       showActiveTasks();
@@ -281,7 +281,7 @@ function toggleComplete(e, status) {
   let selectedTask = findTaskById(tasks, taskId);
   selectedTask.completed = status;
   e.target.parentNode.remove();
-  saveTasksToLocalStorage(tasks);
+  saveToLocalStorage("tasks", tasks);
 }
 
 function showCompletedTasks() {

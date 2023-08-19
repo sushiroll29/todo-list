@@ -1,30 +1,17 @@
-function saveTasksToLocalStorage(tasks) {
+function saveToLocalStorage(key, value) {
   try {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem(`${key}`, JSON.stringify(value));
   } catch (e) {
     console.warn("Could not save to local storage.");
   }
 }
 
-function getTasksFromLocalStorage(keyName) {
-  return JSON.parse(localStorage.getItem(`${keyName}`));
+function getFromLocalStorage(key) {
+  return JSON.parse(localStorage.getItem(`${key}`));
 }
 
-function deleteTaskFromLocalStorage(task) {
-  localStorage.removeItem(task);
-}
-
-function saveCompletedTasksToLocalStorage(completedTasks) {
-  try {
-    localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
-  } catch (e) {
-    console.warn("Could not save completed task to local storage.");
-  }
-}
 
 export {
-  saveTasksToLocalStorage,
-  getTasksFromLocalStorage,
-  deleteTaskFromLocalStorage,
-  saveCompletedTasksToLocalStorage
+  saveToLocalStorage,
+  getFromLocalStorage,
 };

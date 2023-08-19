@@ -2,13 +2,11 @@ import { addDays, format, isWithinInterval } from "date-fns";
 import parseISO from "date-fns/parseISO";
 import { createTaskContainer } from "./DOMmanipulation";
 import {
-  saveToLocalStorage,
-  getTasksFromLocalStorage,
-  deleteTaskFromLocalStorage,
+  getFromLocalStorage,
 } from "./localStorage";
 
 
-let tasks = localStorage.getItem("tasks") ? getTasksFromLocalStorage("tasks") : [];
+let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 
 function todo(id, title, description, dueDate, priority, completed) {
   return {
@@ -32,7 +30,7 @@ function addTaskToList(task) {
 function getTodayTasks() {
   const showTasks = document.querySelector(".show-tasks");
   const todayDate = Date.parse(format(new Date(), "yyyy-MM-dd"));
-  let taskList = getTasksFromLocalStorage("tasks");
+  let taskList = getFromLocalStorage("tasks");
   taskList.forEach((task) => {
     const taskDate = Date.parse(task.dueDate);
     if (todayDate === taskDate) {
@@ -44,7 +42,7 @@ function getTodayTasks() {
 
 function getUpcomingWeekTasks() {
   const showTasks = document.querySelector(".show-tasks");
-  let taskList = getTasksFromLocalStorage("tasks");
+  let taskList = getFromLocalStorage("tasks");
   taskList.forEach((task) => {
     const taskDate = parseISO(task.dueDate);
     if (!task.completed && checkNextWeek(taskDate)) {
@@ -79,7 +77,7 @@ function findTaskById(taskList, taskId) {
 
 function getPriorityTasks(priorityType) {
   const showTasks = document.querySelector(".show-tasks");
-  let taskList = getTasksFromLocalStorage("tasks");
+  let taskList = getFromLocalStorage("tasks");
 
   taskList.forEach(task => {
     if(!task.completed && task.priority === `${priorityType}`) {
@@ -90,7 +88,7 @@ function getPriorityTasks(priorityType) {
 
 function getCompletedTasks() {
   const showTasks = document.querySelector(".show-tasks");
-  let taskList = getTasksFromLocalStorage("tasks");
+  let taskList = getFromLocalStorage("tasks");
 
   taskList.forEach(task => {
     if(task.completed) {
