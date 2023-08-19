@@ -17,7 +17,7 @@
             <button class="task-filter" id="time-upcoming">Upcoming</button>
           </li>
           <li><button class="task-filter" id="completed">Completed</button></li>
-          <li><button id="new-task-btn">Add new task</button></li>
+          
         </ul>
         <ul class="sticky-content"><button class="task-filter" id="sticky-wall">Sticky wall</button>
        
@@ -80,8 +80,8 @@
               </div>
             </fieldset>
             <div class="form-button">
-              <button type="submit" id="submit-btn">Add</button>
-              <button type="button" id="cancel-btn">Cancel</button>
+              <button type="submit" id="submit-task-btn">Add</button>
+              <button type="button" id="cancel-task-btn">Cancel</button>
             </div>
           </form>
         </div>
@@ -134,15 +134,39 @@
               </div>
             </fieldset>
             <div class="form-button">
-              <button type="submit" id="edit-save-btn">Save</button>
-              <button type="button" id="cancel-btn">Cancel</button>
+              <button type="submit" id="save-edit-btn">Save</button>
+              <button type="button" id="cancel-edit-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
+        <div id="new-sticky">
+          <form action="" class="form-container" id="new-sticky-form">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              id="sticky-title"
+              placeholder="Title"
+              required
+            />
+
+            <label for="sticky-content">Description</label>
+            <input
+              type="text"
+              id="sticky-content"
+              placeholder="Add content"
+            />
+            <div class="form-button">
+              <button type="submit" id="submit-sticky-btn">Add</button>
+              <button type="button" class="cancel-sticky-btn">Cancel</button>
             </div>
           </form>
         </div>
       </div>
+<div class="main-screen">
+  <button id="new-task-btn">Add new task</button>
+      <div class="show-tasks"></div>
+        
 
-      <div class="show-tasks">
-        <!-- <button id="new-task-btn">Add new task</button> -->
       </div>
     </div>
   </body>

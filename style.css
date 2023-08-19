@@ -22,6 +22,11 @@
   border: 3px solid greenyellow;
 }
 
+#new-sticky {
+  display: none;
+  border: 3px solid pink;
+}
+
 .active {
   background-color: green;
 }
