@@ -50,3 +50,13 @@
 ul{
   list-style: none;
 }
+
+#stickies-main {
+  display: none;
+}
+
+.sticky-container {
+  border: 2px solid purple;
+  margin: 5px 0;
+    padding: 1rem;
+}

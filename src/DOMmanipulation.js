@@ -10,8 +10,9 @@ import {
   findTaskById,
   getPriorityTasks,
   getCompletedTasks
-  
-} from "./todo";
+} from "./task";
+
+import { showStickyWall } from "./stickyDOM";
 
 let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 let taskId = Number(localStorage.getItem("taskId")) || 0; //make sure id doesn't reset to 0 after page reload
@@ -167,7 +168,9 @@ function showUpcomingTasks() {
 }
 
 function showActiveTasks() {
+  
   clearScreen();
+  changeAddBtn('new-task-btn');
   setActiveTab("#time-active");
   
   const showTasks = document.querySelector(".show-tasks");
@@ -288,7 +291,18 @@ function showCompletedTasks() {
   clearScreen();
   setActiveTab("#completed");
   getCompletedTasks();
+}
 
+function changeAddBtn(btn) {
+  const mainScreen = document.querySelector(".main-screen");
+  const buttons = mainScreen.querySelectorAll("button");
+  buttons.forEach(button => {
+    if(button.id === `${btn}`) {
+      button.style.display = 'block';
+    } else {
+      button.style.display = 'none';
+    }
+  })
 }
 
 function handlePageEvent(e) {
@@ -303,6 +317,7 @@ function handlePageEvent(e) {
   const priorityLow = e.target.matches("#low-priority");
   const priorityMedium = e.target.matches("#medium-priority");
   const priorityHigh = e.target.matches("#high-priority");
+  const stickyWall = e.target.matches("#sticky-wall");
 
   if (deleteButton) {
     removeTask(e);
@@ -313,20 +328,31 @@ function handlePageEvent(e) {
   } else if (unmarkCompleteButton) {
     toggleComplete(e, false);
   } else if (timeToday) {
+    changeAddBtn('new-task-btn');
     showTodayTasks();
   } else if (timeAll) {
+    changeAddBtn('new-task-btn');
     showActiveTasks();
   } else if (timeUpcoming) {
+    changeAddBtn('new-task-btn');
     showUpcomingTasks();
   } else if (completed) {
+    changeAddBtn('new-task-btn');
     showCompletedTasks();
   } else if (priorityLow) {
+    changeAddBtn('new-task-btn');
     showPriorityTasks("low");
   } else if (priorityMedium) {
+    changeAddBtn('new-task-btn');
     showPriorityTasks("medium");
   } else if (priorityHigh) {
+    changeAddBtn('new-task-btn');
     showPriorityTasks("high");
-  } else return;
+  } else if (stickyWall) {
+    changeAddBtn('new-sticky-btn');
+    showStickyWall();
+  } 
+    else return;
 }
 
 function pageEvent() {
@@ -366,4 +392,9 @@ export {
   showUpcomingTasks,
   removeTask,
   pageEvent,
+  clearScreen,
+  setActiveTab,
+  changeAddBtn,
+  openForm,
+  closeForm, resetForm
 };
