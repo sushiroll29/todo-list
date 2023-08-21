@@ -1,10 +1,7 @@
 import { addDays, format, isWithinInterval } from "date-fns";
 import parseISO from "date-fns/parseISO";
-import { createTaskContainer } from "./DOMmanipulation";
-import {
-  getFromLocalStorage,
-} from "./localStorage";
-
+import { createTaskContainer } from "./taskDOM";
+import { getFromLocalStorage } from "./localStorage";
 
 let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 
@@ -15,20 +12,12 @@ function todo(id, title, description, dueDate, priority, completed) {
     description,
     dueDate,
     priority,
-    completed: false
+    completed: false,
   };
 }
 
-function addTaskToList(task) {
-  if (!tasks.includes(task)) {
-    tasks.push(task);
-    task.index = tasks.length - 1;
-  }
-}
-
-// ...
 function getTodayTasks() {
-  const showTasks = document.querySelector(".show-tasks");
+  const showTasks = document.querySelector(".show-items");
   const todayDate = Date.parse(format(new Date(), "yyyy-MM-dd"));
   let taskList = getFromLocalStorage("tasks");
   taskList.forEach((task) => {
@@ -41,7 +30,7 @@ function getTodayTasks() {
 }
 
 function getUpcomingWeekTasks() {
-  const showTasks = document.querySelector(".show-tasks");
+  const showTasks = document.querySelector(".show-items");
   let taskList = getFromLocalStorage("tasks");
   taskList.forEach((task) => {
     const taskDate = parseISO(task.dueDate);
@@ -61,40 +50,38 @@ function checkNextWeek(date) {
   });
 }
 
-function deleteTask(taskList, taskId) {
-  taskList.forEach((task) => {
-    if (task["id"] == taskId) {
-      let index = taskList.indexOf(task);
-      taskList.splice(index, 1);
-    }
-  });
-}
-
 function findTaskById(taskList, taskId) {
   const selectedTask = taskList.find((task) => task["id"] == taskId);
   return selectedTask;
 }
 
 function getPriorityTasks(priorityType) {
-  const showTasks = document.querySelector(".show-tasks");
+  const showTasks = document.querySelector(".show-items");
   let taskList = getFromLocalStorage("tasks");
 
-  taskList.forEach(task => {
-    if(!task.completed && task.priority === `${priorityType}`) {
+  taskList.forEach((task) => {
+    if (!task.completed && task.priority === `${priorityType}`) {
       showTasks.appendChild(createTaskContainer(task));
     }
-  })
+  });
 }
 
 function getCompletedTasks() {
-  const showTasks = document.querySelector(".show-tasks");
+  const showTasks = document.querySelector(".show-items");
   let taskList = getFromLocalStorage("tasks");
 
-  taskList.forEach(task => {
-    if(task.completed) {
+  taskList.forEach((task) => {
+    if (task.completed) {
       showTasks.appendChild(createTaskContainer(task));
     }
-  })
+  });
 }
 
-export { todo, addTaskToList, getTodayTasks, getUpcomingWeekTasks, deleteTask, findTaskById, getPriorityTasks, getCompletedTasks };
+export {
+  todo,
+  getTodayTasks,
+  getUpcomingWeekTasks,
+  findTaskById,
+  getPriorityTasks,
+  getCompletedTasks,
+};

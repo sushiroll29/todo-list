@@ -1,8 +1,9 @@
-import { deleteSticky, sticky, findStickyById } from "./sticky";
+import { sticky } from "./sticky";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
 import { clearScreen } from "./DOMmanipulation";
 import { setActiveTab } from "./DOMmanipulation";
 import { openForm, closeForm, resetForm } from "./DOMmanipulation";
+import { deleteItemById, findItemById } from "./itemFunctions";
 
 let stickies = localStorage.getItem("stickies")
   ? getFromLocalStorage("stickies")
@@ -43,12 +44,11 @@ function createStickyContainer(sticky) {
 function showStickyWall() {
   clearScreen();
   setActiveTab("#sticky-wall");
-  const showStickies = document.querySelector(".show-tasks");
+  const showStickies = document.querySelector(".show-items");
   stickies.forEach((sticky) => {
-    if(!sticky.completed) {
+    if (!sticky.completed) {
       showStickies.appendChild(createStickyContainer(sticky));
     }
-    
   });
   addNewSticky();
   assignBackgroundColors();
@@ -68,28 +68,23 @@ function addNewSticky() {
       },
       { once: true }
     );
-    newStickyForm.addEventListener("submit", handleFormSubmit, { once: true });
+    newStickyForm.addEventListener("submit", handleNewStickySubmit, {
+      once: true,
+    });
   });
 }
 
-function handleFormSubmit(e) {
+function handleNewStickySubmit(e) {
   e.preventDefault();
-  const showStickies = document.querySelector(".show-tasks");
+  const showStickies = document.querySelector(".show-items");
 
   const itemId = stickyId;
   stickyId++;
   const formStickyTitle = document.querySelector("#sticky-title").value;
   const formStickyContent = document.querySelector("#sticky-content").value;
   //creates the new task using info provided in the form
-  const s = sticky(
-    itemId,
-    formStickyTitle,
-    formStickyContent,
-  );
-
-  //adds task to task list and updates the active tasks on the DOM
+  const s = sticky(itemId, formStickyTitle, formStickyContent);
   stickies.push(s);
-  //tasks get sorted by date every time a new one is added to the list
   saveToLocalStorage("stickies", stickies);
   localStorage.setItem("stickyId", stickyId);
   showStickies.appendChild(createStickyContainer(s));
@@ -118,15 +113,15 @@ function removeSticky(e) {
   const stickyContainers = document.querySelectorAll(".sticky-container");
   let stickyContainersList = Array.from(stickyContainers);
   const stickyId = e.target.parentNode.id;
-  let selectedStickyContainer = findStickyById(stickyContainersList, stickyId);
+  let selectedStickyContainer = findItemById(stickyContainersList, stickyId);
 
   e.target.parentNode.remove();
   stickyContainersList = stickyContainersList.filter(
     (stickyContainer) => stickyContainer != selectedStickyContainer
   );
 
-  deleteSticky(stickies, stickyId);
+  deleteItemById(stickies, stickyId);
   saveToLocalStorage("stickies", stickies);
 }
 
-export { createStickyContainer, showStickyWall, removeSticky }
+export { createStickyContainer, showStickyWall, removeSticky };
