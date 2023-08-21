@@ -1,4 +1,4 @@
-import { sticky } from "./sticky";
+import { deleteSticky, sticky, findStickyById } from "./sticky";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
 import { clearScreen } from "./DOMmanipulation";
 import { setActiveTab } from "./DOMmanipulation";
@@ -23,11 +23,11 @@ function createStickyContainer(sticky) {
   stickyContainerContent.textContent = `${sticky.content}`;
 
   const stickyContainerEditBtn = document.createElement("button");
-  stickyContainerEditBtn.classList.add("edit-btn");
+  stickyContainerEditBtn.classList.add("edit-sticky-btn");
   stickyContainerEditBtn.textContent = `Edit`;
 
   const stickyContainerDeleteBtn = document.createElement("button");
-  stickyContainerDeleteBtn.classList.add("delete-btn");
+  stickyContainerDeleteBtn.classList.add("delete-sticky-btn");
   stickyContainerDeleteBtn.textContent = `Delete`;
 
   stickyContainer.append(
@@ -114,4 +114,19 @@ function assignBackgroundColors() {
   });
 }
 
-export { createStickyContainer, showStickyWall }
+function removeSticky(e) {
+  const stickyContainers = document.querySelectorAll(".sticky-container");
+  let stickyContainersList = Array.from(stickyContainers);
+  const stickyId = e.target.parentNode.id;
+  let selectedStickyContainer = findStickyById(stickyContainersList, stickyId);
+
+  e.target.parentNode.remove();
+  stickyContainersList = stickyContainersList.filter(
+    (stickyContainer) => stickyContainer != selectedStickyContainer
+  );
+
+  deleteSticky(stickies, stickyId);
+  saveToLocalStorage("stickies", stickies);
+}
+
+export { createStickyContainer, showStickyWall, removeSticky }

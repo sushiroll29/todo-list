@@ -12,7 +12,7 @@ import {
   getCompletedTasks
 } from "./task";
 
-import { showStickyWall } from "./stickyDOM";
+import { showStickyWall, removeSticky } from "./stickyDOM";
 
 let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 let taskId = Number(localStorage.getItem("taskId")) || 0; //make sure id doesn't reset to 0 after page reload
@@ -45,11 +45,11 @@ function createTaskContainer(task) {
   taskContainerCompleteBtn.textContent = `Mark completed`;
 
   const taskContainerEditBtn = document.createElement("button");
-  taskContainerEditBtn.classList.add("edit-btn");
+  taskContainerEditBtn.classList.add("edit-task-btn");
   taskContainerEditBtn.textContent = `Edit`;
 
   const taskContainerDeleteBtn = document.createElement("button");
-  taskContainerDeleteBtn.classList.add("delete-btn");
+  taskContainerDeleteBtn.classList.add("delete-task-btn");
   taskContainerDeleteBtn.textContent = `Delete`;
 
   taskContainer.append(
@@ -306,8 +306,8 @@ function changeAddBtn(btn) {
 }
 
 function handlePageEvent(e) {
-  const deleteButton = e.target.matches(".delete-btn");
-  const editButton = e.target.matches(".edit-btn");
+  const deleteTaskButton = e.target.matches(".delete-task-btn");
+  const editTaskButton = e.target.matches(".edit-task-btn");
   const markCompleteButton = e.target.matches(".complete-btn");
   const unmarkCompleteButton = e.target.matches(".unmark-complete-btn");
   const timeToday = e.target.matches("#time-today");
@@ -317,11 +317,14 @@ function handlePageEvent(e) {
   const priorityLow = e.target.matches("#low-priority");
   const priorityMedium = e.target.matches("#medium-priority");
   const priorityHigh = e.target.matches("#high-priority");
-  const stickyWall = e.target.matches("#sticky-wall");
 
-  if (deleteButton) {
+  const stickyWall = e.target.matches("#sticky-wall");
+  const deleteStickyButton = e.target.matches(".delete-sticky-btn");
+  const editStickyButton = e.target.matches(".edit-sticky-btn");
+
+  if (deleteTaskButton) {
     removeTask(e);
-  } else if (editButton) {
+  } else if (editTaskButton) {
     editTask(e);
   } else if (markCompleteButton) {
     toggleComplete(e, true);
@@ -351,7 +354,12 @@ function handlePageEvent(e) {
   } else if (stickyWall) {
     changeAddBtn('new-sticky-btn');
     showStickyWall();
-  } 
+  } else if (deleteStickyButton) {
+    removeSticky(e);
+
+  } else if (editStickyButton) {
+    // editSticky(e);
+  }
     else return;
 }
 
