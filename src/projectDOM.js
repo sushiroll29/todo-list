@@ -1,6 +1,13 @@
-import { openFormPopup, closeFormPopup, resetForm } from "./DOMmanipulation";
+import {
+  openFormPopup,
+  closeFormPopup,
+  resetForm,
+  clearScreen,
+  changeAddBtn,
+} from "./DOMmanipulation";
 import { project } from "./project";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
+import { findItemById } from "./itemFunctions";
 
 let projects = localStorage.getItem("projects")
   ? getFromLocalStorage("projects")
@@ -10,10 +17,22 @@ let projectId = Number(localStorage.getItem("projectId")); //make sure id doesn'
 function createProjectListItem(project) {
   const listItem = document.createElement("li");
   listItem.classList.add("project-list-item");
-  listItem.id = projectId;
+  listItem.id = project.id;
   listItem.textContent = project.title;
 
   return listItem;
+}
+
+function createProjectContainer(project) {
+  const projectContainer = document.createElement("div");
+  projectContainer.classList.add("project-container");
+
+  const projectTitle = document.createElement("p");
+  projectTitle.textContent = project.title;
+
+  projectContainer.appendChild(projectTitle);
+
+  return projectContainer;
 }
 
 function addNewProject() {
@@ -62,6 +81,25 @@ function showProjectList() {
   projectList.textContent = "Projects";
   projects.forEach((project) => {
     projectList.appendChild(createProjectListItem(project));
+  });
+  projectListEvent();
+}
+
+function openProject(selectedProject) {
+  const showItems = document.querySelector(".show-items");
+  clearScreen();
+  changeAddBtn("");
+  showItems.appendChild(createProjectContainer(selectedProject));
+}
+
+function projectListEvent() {
+  const projectItems = document.querySelectorAll(".project-list-item");
+  projectItems.forEach((projectItem) => {
+    projectItem.addEventListener("click", () => {
+      const selectedProject = findItemById(projects, projectItem.id);
+      openProject(selectedProject);
+      console.log(selectedProject);
+    });
   });
 }
 
