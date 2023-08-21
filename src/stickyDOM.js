@@ -51,6 +51,7 @@ function showStickyWall() {
     
   });
   addNewSticky();
+  assignBackgroundColors();
 }
 
 function addNewSticky() {
@@ -95,7 +96,22 @@ function handleFormSubmit(e) {
   closeForm("new-sticky");
   resetForm("new-sticky-form");
   showStickyWall();
-  
+}
+
+function assignBackgroundColors() {
+  const colors = ["#fcf4dd", "#ddedea", "#fce1e4", "#e8dff5", "#daeaf6"];
+  const stickyContainers = document.querySelectorAll(".sticky-container");
+  let i = 0;
+
+  stickyContainers.forEach((stickyContainer) => {
+    stickyContainer.style.backgroundColor = colors[i];
+
+    if (i === colors.length - 1) {
+      i = 0;
+    } else {
+      i++;
+    }
+  });
 }
 
 export { createStickyContainer, showStickyWall }
