@@ -10,19 +10,20 @@
   <body>
     <div class="container">
       <div id="sidebar">
-        <ul class="task-content">Tasks
+        <ul class="task-content">
+          Tasks
           <li><button class="task-filter" id="time-active">Active</button></li>
           <li><button class="task-filter" id="time-today">Today</button></li>
           <li>
             <button class="task-filter" id="time-upcoming">Upcoming</button>
           </li>
           <li><button class="task-filter" id="completed">Completed</button></li>
-          
         </ul>
-        <ul class="sticky-content"><button class="task-filter" id="sticky-wall">Sticky wall</button>
-       
+        <ul class="sticky-content">
+          <button class="task-filter" id="sticky-wall">Sticky wall</button>
         </ul>
-        <ul class="priority">Priority
+        <ul class="priority">
+          Priority
           <li><button class="task-filter" id="low-priority">Low</button></li>
           <li>
             <button class="task-filter" id="medium-priority">Medium</button>
@@ -142,32 +143,40 @@
         <div id="new-sticky">
           <form action="" class="form-container" id="new-sticky-form">
             <label for="title">Title</label>
-            <input
-              type="text"
-              id="sticky-title"
-              placeholder="Title"
-              required
-            />
+            <input type="text" id="sticky-title" placeholder="Title" required />
 
             <label for="sticky-content">Description</label>
-            <input
-              type="text"
-              id="sticky-content"
-              placeholder="Add content"
-            />
+            <input type="text" id="sticky-content" placeholder="Add content" />
             <div class="form-button">
               <button type="submit" id="submit-sticky-btn">Add</button>
               <button type="button" id="cancel-sticky-btn">Cancel</button>
             </div>
           </form>
         </div>
+        <div id="edit-sticky">
+          <form action="" class="form-container" id="edit-sticky-form">
+            <label for="edit-sticky-title">Title</label>
+            <input
+              type="text"
+              id="edit-sticky-title"
+              placeholder="Title"
+              required
+            />
+
+            <label for="edit-sticky-content">Content</label>
+            <input type="text" id="edit-sticky-content" />
+
+            <div class="form-button">
+              <button type="submit" id="save-edit-btn">Save</button>
+              <button type="button" id="cancel-edit-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
-<div class="main-screen">
-  <button id="new-task-btn">Add new task</button>
-      <div class="show-items"></div>
-      
-      
+      <div class="main-screen">
+        <button id="new-task-btn">Add new task</button>
         <button id="new-sticky-btn">Add new sticky</button>
+        <div class="show-items"></div>
       </div>
     </div>
   </body>
