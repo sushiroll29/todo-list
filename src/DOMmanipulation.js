@@ -50,7 +50,7 @@ function handlePageEvent(e) {
   const timeToday = e.target.matches("#time-today");
   const timeUpcoming = e.target.matches("#time-upcoming");
   const timeAll = e.target.matches("#time-active");
-  
+
   const newProject = e.target.matches("#new-project-btn");
 
   const stickyWall = e.target.matches("#sticky-wall");
@@ -99,7 +99,6 @@ function handlePageEvent(e) {
   } else if (editStickyButton) {
     editSticky(e);
   } else if (newProject) {
-    // openFormPopup("new-project");
     addNewProject();
   } else return;
 }

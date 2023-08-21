@@ -4,6 +4,7 @@ import {
   resetForm,
   clearScreen,
   changeAddBtn,
+  setActiveTab,
 } from "./DOMmanipulation";
 import { project } from "./project";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
@@ -40,10 +41,12 @@ function addNewProject() {
   const cancelButton = newProjectForm.querySelector("#cancel-project-btn");
 
   openFormPopup("new-project");
+  toggleAddNewProjectButton();
   cancelButton.addEventListener(
     "click",
     () => {
       closeFormPopup("new-project");
+      toggleAddNewProjectButton();
     },
     { once: true }
   );
@@ -73,6 +76,7 @@ function handleNewProjectSubmit(e) {
   );
   closeFormPopup("new-project");
   resetForm("new-project-form");
+  toggleAddNewProjectButton();
   showProjectList();
 }
 
@@ -85,10 +89,11 @@ function showProjectList() {
   projectListEvent();
 }
 
-function openProject(selectedProject) {
+function openProject(selectedProject, selectedProjectElement) {
   const showItems = document.querySelector(".show-items");
   clearScreen();
   changeAddBtn("");
+  setActiveTab(`.project-list-item[id="${selectedProjectElement.id}"]`);
   showItems.appendChild(createProjectContainer(selectedProject));
 }
 
@@ -97,10 +102,20 @@ function projectListEvent() {
   projectItems.forEach((projectItem) => {
     projectItem.addEventListener("click", () => {
       const selectedProject = findItemById(projects, projectItem.id);
-      openProject(selectedProject);
-      console.log(selectedProject);
+      openProject(selectedProject, projectItem);
     });
   });
 }
 
-export { addNewProject, showProjectList };
+function toggleAddNewProjectButton() {
+  const newProjectBtn = document.querySelector("#new-project-btn");
+  const newProjectPopup = document.querySelector("#new-project");
+
+  if (newProjectPopup.style.display == "block") {
+    newProjectBtn.style.display = "none";
+  } else {
+    newProjectBtn.style.display = "block";
+  }
+}
+
+export { addNewProject, showProjectList, toggleAddNewProjectButton };
