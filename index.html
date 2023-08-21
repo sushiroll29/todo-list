@@ -19,16 +19,25 @@
           </li>
           <li><button class="task-filter" id="completed">Completed</button></li>
         </ul>
-        <ul class="project-content">Projects
-          
-              <li>1</li>
-              <li>2</li>
-          
+        <ul class="priority">
+          Priority
+          <li><button class="task-filter" id="low-priority">Low</button></li>
+          <li>
+            <button class="task-filter" id="medium-priority">Medium</button>
+          </li>
+          <li><button class="task-filter" id="high-priority">High</button></li>
+        </ul>
+        <ul class="project-content">
           <li><button id="new-project-btn">Add new project</button></li>
         </ul>
         <div id="new-project">
           <form action="" class="form-container" id="new-project-form">
-            <input type="text" id="project-title" placeholder="Title" required />
+            <input
+              type="text"
+              id="project-title"
+              placeholder="Title"
+              required
+            />
             <div class="form-button">
               <button type="submit" id="submit-project-btn">Add</button>
               <button type="button" id="cancel-project-btn">Cancel</button>
@@ -37,14 +46,6 @@
         </div>
         <ul class="sticky-content">
           <button class="task-filter" id="sticky-wall">Sticky wall</button>
-        </ul>
-        <ul class="priority">
-          Priority
-          <li><button class="task-filter" id="low-priority">Low</button></li>
-          <li>
-            <button class="task-filter" id="medium-priority">Medium</button>
-          </li>
-          <li><button class="task-filter" id="high-priority">High</button></li>
         </ul>
       </div>
       <div id="task-display">
