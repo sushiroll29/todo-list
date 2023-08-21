@@ -8,14 +8,14 @@ import {
   removeTask,
   toggleComplete,
 } from "./taskDOM";
-import { showStickyWall, removeSticky } from "./stickyDOM";
+import { showStickyWall, editSticky, removeSticky } from "./stickyDOM";
 
-function openForm(formType) {
+function openFormPopup(formType) {
   const formPopup = document.querySelector(`#${formType}`);
   formPopup.style.display = "block";
 }
 
-function closeForm(formType) {
+function closeFormPopup(formType) {
   const formPopup = document.querySelector(`#${formType}`);
   formPopup.style.display = "none";
 }
@@ -93,7 +93,7 @@ function handlePageEvent(e) {
   } else if (deleteStickyButton) {
     removeSticky(e);
   } else if (editStickyButton) {
-    // editSticky(e);
+    editSticky(e);
   } else return;
 }
 
@@ -124,7 +124,7 @@ export {
   clearScreen,
   setActiveTab,
   changeAddBtn,
-  openForm,
-  closeForm,
+  openFormPopup,
+  closeFormPopup,
   resetForm,
 };

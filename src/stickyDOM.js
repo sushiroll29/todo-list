@@ -2,7 +2,7 @@ import { sticky } from "./sticky";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
 import { clearScreen } from "./DOMmanipulation";
 import { setActiveTab } from "./DOMmanipulation";
-import { openForm, closeForm, resetForm } from "./DOMmanipulation";
+import { openFormPopup, closeFormPopup, resetForm } from "./DOMmanipulation";
 import { deleteItemById, findItemById } from "./itemFunctions";
 
 let stickies = localStorage.getItem("stickies")
@@ -60,11 +60,11 @@ function addNewSticky() {
   const cancelButton = newStickyForm.querySelector("#cancel-sticky-btn");
 
   newStickyBtn.addEventListener("click", () => {
-    openForm("new-sticky");
+    openFormPopup("new-sticky");
     cancelButton.addEventListener(
       "click",
       () => {
-        closeForm("new-sticky");
+        closeFormPopup("new-sticky");
       },
       { once: true }
     );
@@ -88,7 +88,7 @@ function handleNewStickySubmit(e) {
   saveToLocalStorage("stickies", stickies);
   localStorage.setItem("stickyId", stickyId);
   showStickies.appendChild(createStickyContainer(s));
-  closeForm("new-sticky");
+  closeFormPopup("new-sticky");
   resetForm("new-sticky-form");
   showStickyWall();
 }
@@ -122,6 +122,57 @@ function removeSticky(e) {
 
   deleteItemById(stickies, stickyId);
   saveToLocalStorage("stickies", stickies);
+  assignBackgroundColors();
 }
 
-export { createStickyContainer, showStickyWall, removeSticky };
+function populateStickyForm(stickyInfo) {
+  const initialStickyTitle = document.querySelector("#edit-sticky-title");
+  const initialStickyContent = document.querySelector(
+    "#edit-sticky-content"
+  );
+
+  initialStickyTitle.value = stickyInfo.title;
+  initialStickyContent.value = stickyInfo.content;
+}
+
+function editSticky(e) {
+  const stickyId = e.target.parentNode.id;
+  let selectedSticky = findItemById(stickies, stickyId);
+  const editForm = document.querySelector("#edit-sticky-form");
+  const cancelButton = editForm.querySelector("#cancel-edit-btn");
+  cancelButton.addEventListener(
+    "click",
+    () => {
+      closeFormPopup("edit-sticky");
+    },
+    { once: true }
+  );
+  openFormPopup("edit-sticky");
+  populateStickyForm(selectedSticky);
+  handleEditStickySubmit(selectedSticky);
+}
+
+function handleEditStickySubmit(stickyInfo) {
+  const editForm = document.querySelector("#edit-sticky-form");
+  editForm.addEventListener(
+    "submit",
+    (e) => {
+      e.preventDefault();
+
+      const newStickyTitle = document.querySelector("#edit-sticky-title").value;
+      const newStickyContent = document.querySelector(
+        "#edit-sticky-content"
+      ).value;
+      
+
+      stickyInfo.title = newStickyTitle;
+      stickyInfo.content = newStickyContent;
+
+      saveToLocalStorage("stickies", stickies);
+      closeFormPopup("edit-sticky");
+      showStickyWall();
+    },
+    { once: true });
+}
+
+export { createStickyContainer, showStickyWall, editSticky, removeSticky };

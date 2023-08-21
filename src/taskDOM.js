@@ -13,8 +13,8 @@ import {
   clearScreen,
   changeAddBtn,
   setActiveTab,
-  openForm,
-  closeForm,
+  openFormPopup,
+  closeFormPopup,
   resetForm,
 } from "./DOMmanipulation";
 
@@ -92,19 +92,19 @@ function addNewTask() {
   const cancelButton = newTaskForm.querySelector("#cancel-task-btn");
 
   newTaskBtn.addEventListener("click", () => {
-    openForm("new-task");
+    openFormPopup("new-task");
     cancelButton.addEventListener(
       "click",
       () => {
-        closeForm("new-task");
+        closeFormPopup("new-task");
       },
       { once: true }
     );
-    newTaskForm.addEventListener("submit", handleFormSubmit, { once: true });
+    newTaskForm.addEventListener("submit", handleNewTaskSubmit, { once: true });
   });
 }
 
-function handleFormSubmit(e) {
+function handleNewTaskSubmit(e) {
   e.preventDefault();
   const showTasks = document.querySelector(".show-items");
 
@@ -133,7 +133,7 @@ function handleFormSubmit(e) {
   saveToLocalStorage("tasks", tasks);
   localStorage.setItem("taskId", taskId);
   showTasks.appendChild(createTaskContainer(task));
-  closeForm("new-task");
+  closeFormPopup("new-task");
   resetForm("new-task-form");
   showActiveTasks();
 }
@@ -197,18 +197,18 @@ function editTask(e) {
   cancelButton.addEventListener(
     "click",
     () => {
-      closeForm("edit-task");
+      closeFormPopup("edit-task");
     },
     { once: true }
   );
-  openForm("edit-task");
+  openFormPopup("edit-task");
   //fill in form inputs with existing info
-  populateForm(selectedTask);
+  populateTaskForm(selectedTask);
   //update the task based on the new input values
-  handleEditForm(selectedTask);
+  handleEditTaskSubmit(selectedTask);
 }
 
-function populateForm(taskInfo) {
+function populateTaskForm(taskInfo) {
   const initialTaskTitle = document.querySelector("#edit-task-title");
   const initialTaskDescription = document.querySelector(
     "#edit-task-description"
@@ -226,7 +226,7 @@ function populateForm(taskInfo) {
   });
 }
 
-function handleEditForm(taskInfo) {
+function handleEditTaskSubmit(taskInfo) {
   const editForm = document.querySelector("#edit-task-form");
   editForm.addEventListener(
     "submit",
@@ -253,7 +253,7 @@ function handleEditForm(taskInfo) {
 
       saveToLocalStorage("tasks", tasks);
       sortTasksByDate();
-      closeForm("edit-task");
+      closeFormPopup("edit-task");
       showActiveTasks();
     },
     { once: true }
