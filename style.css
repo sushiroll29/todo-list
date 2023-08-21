@@ -7,14 +7,14 @@
 }
 
 .task-container {
-    border: 2px solid blue;
-    margin: 5px 0;
-    padding: 1rem;
+  border: 2px solid blue;
+  margin: 5px 0;
+  padding: 1rem;
 }
 
 #new-task {
-    display: none;
-    border: 3px solid red;
+  display: none;
+  border: 3px solid red;
 }
 
 #edit-task {
@@ -57,7 +57,7 @@
   gap: 2rem;
 }
 
-ul{
+ul {
   list-style: none;
 }
 
@@ -68,5 +68,10 @@ ul{
 .sticky-container {
   /* border: 2px solid purple; */
   margin: 5px 0;
-    padding: 1rem;
+  padding: 1rem;
+}
+
+.project-list-item:hover {
+  cursor: pointer;
+  background-color: darkgray;
 }
