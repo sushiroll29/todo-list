@@ -56,7 +56,7 @@ ul{
 }
 
 .sticky-container {
-  border: 2px solid purple;
+  /* border: 2px solid purple; */
   margin: 5px 0;
     padding: 1rem;
 }
