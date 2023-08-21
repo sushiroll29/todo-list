@@ -32,6 +32,11 @@
   border: 3px solid cyan;
 }
 
+#new-project {
+  display: none;
+  border: 3px solid orange;
+}
+
 .active {
   background-color: green;
 }
