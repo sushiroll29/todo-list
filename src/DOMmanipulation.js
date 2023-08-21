@@ -9,6 +9,7 @@ import {
   toggleComplete,
 } from "./taskDOM";
 import { showStickyWall, editSticky, removeSticky } from "./stickyDOM";
+import { addNewProject } from "./projectDOM";
 
 function openFormPopup(formType) {
   const formPopup = document.querySelector(`#${formType}`);
@@ -49,14 +50,17 @@ function handlePageEvent(e) {
   const timeToday = e.target.matches("#time-today");
   const timeUpcoming = e.target.matches("#time-upcoming");
   const timeAll = e.target.matches("#time-active");
-  const completed = e.target.matches("#completed");
-  const priorityLow = e.target.matches("#low-priority");
-  const priorityMedium = e.target.matches("#medium-priority");
-  const priorityHigh = e.target.matches("#high-priority");
+  
+  const newProject = e.target.matches("#new-project-btn");
 
   const stickyWall = e.target.matches("#sticky-wall");
   const deleteStickyButton = e.target.matches(".delete-sticky-btn");
   const editStickyButton = e.target.matches(".edit-sticky-btn");
+
+  const completed = e.target.matches("#completed");
+  const priorityLow = e.target.matches("#low-priority");
+  const priorityMedium = e.target.matches("#medium-priority");
+  const priorityHigh = e.target.matches("#high-priority");
 
   if (deleteTaskButton) {
     removeTask(e);
@@ -94,6 +98,9 @@ function handlePageEvent(e) {
     removeSticky(e);
   } else if (editStickyButton) {
     editSticky(e);
+  } else if (newProject) {
+    // openFormPopup("new-project");
+    addNewProject();
   } else return;
 }
 

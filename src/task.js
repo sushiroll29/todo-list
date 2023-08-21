@@ -5,7 +5,7 @@ import { getFromLocalStorage } from "./localStorage";
 
 let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 
-function todo(id, title, description, dueDate, priority, completed) {
+function todo(id, title, description, dueDate, priority, completed, projectId) {
   return {
     id,
     title,
@@ -13,6 +13,7 @@ function todo(id, title, description, dueDate, priority, completed) {
     dueDate,
     priority,
     completed: false,
+    projectId
   };
 }
 
