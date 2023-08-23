@@ -130,23 +130,70 @@ function toggleAddNewProjectButton() {
 function removeProject(e) {
   const projectList = document.querySelectorAll(".project-list-item");
   let projectListArr = Array.from(projectList);
-  console.log(projectListArr)
-  //find the task that needs to be removed
   const projectId = e.target.parentNode.id;
-  console.log(e.target);
   let selectedProject = findItemById(projectListArr, projectId);
-console.log(selectedProject)
-  //remove the task from DOM
   e.target.parentNode.remove();
   projectListArr = projectListArr.filter(
     (project) => project != selectedProject
   );
 
-  //remove the task from the task array
+  //remove the task from the project array
   deleteItemById(projects, projectId);
-  //re-stringify the array after removing the task
+  //re-stringify the array after removing the project
   saveToLocalStorage("projects", projects);
   showProjectList();
 }
 
-export { addNewProject, showProjectList, toggleAddNewProjectButton, removeProject };
+function editProject(e) {
+  const projectId = e.target.parentNode.id;
+  let selectedProject = findItemById(projects, projectId);
+  const editForm = document.querySelector("#edit-project-form");
+  const cancelButton = editForm.querySelector("#cancel-edit-btn");
+  cancelButton.addEventListener(
+    "click",
+    () => {
+      closeFormPopup("edit-project");
+    },
+    { once: true }
+  );
+  openFormPopup("edit-project");
+  //fill in form inputs with existing info
+  populateProjectForm(selectedProject);
+  //update the task based on the new input values
+  handleEditProjectSubmit(selectedProject);
+  
+}
+
+function handleEditProjectSubmit(projectInfo) {
+  const editForm = document.querySelector("#edit-project-form");
+  editForm.addEventListener(
+    "submit",
+    (e) => {
+      e.preventDefault();
+
+      const newProjectTitle = document.querySelector("#edit-project-title").value;
+      
+
+      projectInfo.title = newProjectTitle;
+
+      saveToLocalStorage("projects", projects);
+      closeFormPopup("edit-project");
+      updateEditedProject(projectInfo);
+      showProjectList();
+    },
+    { once: true });
+}
+
+function populateProjectForm(projectInfo) {
+  const initialProjectTitle = document.querySelector("#edit-project-title");
+  initialProjectTitle.value = projectInfo.title;
+}
+
+function updateEditedProject(projectInfo) {
+  const showItems = document.querySelector(".show-items");
+  clearScreen();
+  showItems.appendChild(createProjectContainer(projectInfo));
+}
+
+
+export { addNewProject, showProjectList, toggleAddNewProjectButton, removeProject, editProject };
