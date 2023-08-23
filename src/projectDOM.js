@@ -9,6 +9,7 @@ import {
 import { project } from "./project";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
 import { findItemById, deleteItemById } from "./itemFunctions";
+import { showTasksInProject } from "./taskDOM";
 
 let projects = localStorage.getItem("projects")
   ? getFromLocalStorage("projects")
@@ -36,11 +37,15 @@ function createProjectContainer(project) {
   projectContainerEditBtn.classList.add("edit-project-btn");
   projectContainerEditBtn.textContent = `Edit`;
 
-    const projectContainerDeleteBtn = document.createElement("button");
-    projectContainerDeleteBtn.classList.add("delete-project-btn");
-    projectContainerDeleteBtn.textContent = `Delete`;
+  const projectContainerDeleteBtn = document.createElement("button");
+  projectContainerDeleteBtn.classList.add("delete-project-btn");
+  projectContainerDeleteBtn.textContent = `Delete`;
 
-  projectContainer.append(projectTitle, projectContainerEditBtn, projectContainerDeleteBtn);
+  projectContainer.append(
+    projectTitle,
+    projectContainerEditBtn,
+    projectContainerDeleteBtn
+  );
 
   return projectContainer;
 }
@@ -104,6 +109,10 @@ function openProject(selectedProject, selectedProjectElement) {
   changeAddBtn("new-task-btn");
   setActiveTab(`.project-list-item[id="${selectedProjectElement.id}"]`);
   showItems.appendChild(createProjectContainer(selectedProject));
+  showTasksInProject(selectedProject);
+  if (selectedProject.taskList) {
+    // console.log(selectedProject.taskList);
+  }
 }
 
 function projectListEvent() {
@@ -161,7 +170,6 @@ function editProject(e) {
   populateProjectForm(selectedProject);
   //update the task based on the new input values
   handleEditProjectSubmit(selectedProject);
-  
 }
 
 function handleEditProjectSubmit(projectInfo) {
@@ -171,8 +179,9 @@ function handleEditProjectSubmit(projectInfo) {
     (e) => {
       e.preventDefault();
 
-      const newProjectTitle = document.querySelector("#edit-project-title").value;
-      
+      const newProjectTitle = document.querySelector(
+        "#edit-project-title"
+      ).value;
 
       projectInfo.title = newProjectTitle;
 
@@ -181,7 +190,8 @@ function handleEditProjectSubmit(projectInfo) {
       updateEditedProject(projectInfo);
       showProjectList();
     },
-    { once: true });
+    { once: true }
+  );
 }
 
 function populateProjectForm(projectInfo) {
@@ -195,16 +205,20 @@ function updateEditedProject(projectInfo) {
   showItems.appendChild(createProjectContainer(projectInfo));
 }
 
-// function addNewTaskToProject() {
-//   const newTaskBtn = document.querySelector("#new-task-btn");
-//   const newTaskForm = document.querySelector("#new-task-form");
-//   const cancelButton = newTaskForm.querySelector("#cancel-task-btn");
+function removeTaskFromProject(taskId, selectedProject) {
+  for (let i = 0; i < selectedProject.taskList.length; i++) {
+    if (taskId == selectedProject.taskList[i]) {
+      selectedProject.taskList.splice(i, 1);
+      saveToLocalStorage("projects", projects);
+    }
+  }
+}
 
-  
-// }
-
-
-
-
-
-export { addNewProject, showProjectList, toggleAddNewProjectButton, removeProject, editProject };
+export {
+  addNewProject,
+  showProjectList,
+  toggleAddNewProjectButton,
+  removeProject,
+  editProject,
+  removeTaskFromProject,
+};

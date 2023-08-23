@@ -17,8 +17,7 @@ import {
   closeFormPopup,
   resetForm,
 } from "./DOMmanipulation";
-
-
+import { removeTaskFromProject } from "./projectDOM";
 
 let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 let taskId = Number(localStorage.getItem("taskId")) || 0; //make sure id doesn't reset to 0 after page reload
@@ -122,13 +121,15 @@ function handleNewTaskSubmit(e) {
   const formTaskPriority = document.querySelector(
     'input[type="radio"]:checked'
   ).value;
-  let projectId = '';
-  let selectedProject = '';
+  let projectId = "";
+  let selectedProject = "";
 
-  const isProjectTabActive = document.getElementsByClassName("project-list-item active");
-  if(isProjectTabActive) {
+  const isProjectTabActive = document.getElementsByClassName(
+    "project-list-item active"
+  );
+  if (isProjectTabActive) {
     //isProjectTabActive will always return an HTML collection with 1 item as the active class is applied to a single DOM element
-    let selectedProjectId = isProjectTabActive[0].id; 
+    let selectedProjectId = isProjectTabActive[0].id;
     selectedProject = findItemById(projects, selectedProjectId);
     projectId = selectedProject.id;
   }
@@ -143,9 +144,9 @@ function handleNewTaskSubmit(e) {
     false,
     projectId
   );
-  //add task to the selected project 
-  if(isProjectTabActive) {
-    selectedProject.taskList.push(task);
+  //add task to the selected project
+  if (isProjectTabActive) {
+    selectedProject.taskList.push(task.id);
     saveToLocalStorage("projects", projects);
   }
   //add task to task list and update the active tasks on the DOM
@@ -198,6 +199,9 @@ function removeTask(e) {
   //find the task that needs to be removed
   const taskId = e.target.parentNode.id;
   let selectedTaskContainer = findItemById(taskContainersList, taskId);
+  let selectedTask = findItemById(tasks, taskId);
+  let projectId = "";
+  let selectedProject = "";
 
   //remove the task from DOM
   e.target.parentNode.remove();
@@ -209,6 +213,12 @@ function removeTask(e) {
   deleteItemById(tasks, taskId);
   //re-stringify the array after removing the task
   saveToLocalStorage("tasks", tasks);
+  //remove the task from the project's task list
+  if (selectedTask.projectId >= 0) {
+    projectId = selectedTask.projectId;
+    selectedProject = findItemById(projects, projectId);
+    removeTaskFromProject(taskId, selectedProject);
+  }
 }
 
 function editTask(e) {
@@ -304,6 +314,15 @@ function sortTasksByDate() {
   });
 }
 
+function showTasksInProject(selectedProject) {
+  const showTasks = document.querySelector(".show-items");
+  tasks.forEach((task) => {
+    if (task.projectId === selectedProject.id) {
+      showTasks.appendChild(createTaskContainer(task));
+    }
+  });
+}
+
 export {
   createTaskContainer,
   showActiveTasks,
@@ -314,4 +333,5 @@ export {
   toggleComplete,
   editTask,
   removeTask,
+  showTasksInProject,
 };
