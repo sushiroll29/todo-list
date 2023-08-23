@@ -227,5 +227,6 @@ export {
   toggleAddNewProjectButton,
   removeProject,
   editProject,
-  removeTaskFromProject,
+  removeTaskFromProject, 
+  openProject
 };

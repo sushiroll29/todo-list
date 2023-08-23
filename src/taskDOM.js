@@ -17,7 +17,7 @@ import {
   closeFormPopup,
   resetForm,
 } from "./DOMmanipulation";
-import { removeTaskFromProject } from "./projectDOM";
+import { removeTaskFromProject, openProject } from "./projectDOM";
 
 let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 let taskId = Number(localStorage.getItem("taskId")) || 0; //make sure id doesn't reset to 0 after page reload
@@ -123,6 +123,7 @@ function handleNewTaskSubmit(e) {
   ).value;
   let projectId = "";
   let selectedProject = "";
+  let selectedProjectElement = "";
 
   const isProjectTabActive = document.getElementsByClassName(
     "project-list-item active"
@@ -130,6 +131,7 @@ function handleNewTaskSubmit(e) {
   if (isProjectTabActive) {
     //isProjectTabActive will always return an HTML collection with 1 item as the active class is applied to a single DOM element
     let selectedProjectId = isProjectTabActive[0].id;
+    selectedProjectElement = isProjectTabActive[0];
     selectedProject = findItemById(projects, selectedProjectId);
     projectId = selectedProject.id;
   }
@@ -158,7 +160,7 @@ function handleNewTaskSubmit(e) {
   showTasks.appendChild(createTaskContainer(task));
   closeFormPopup("new-task");
   resetForm("new-task-form");
-  showActiveTasks();
+  isProjectTabActive ?  openProject(selectedProject, selectedProjectElement) : showActiveTasks();
 }
 
 function showTodayTasks() {
