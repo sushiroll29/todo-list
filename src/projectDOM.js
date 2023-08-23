@@ -101,7 +101,7 @@ function showProjectList() {
 function openProject(selectedProject, selectedProjectElement) {
   const showItems = document.querySelector(".show-items");
   clearScreen();
-  changeAddBtn("");
+  changeAddBtn("new-task-btn");
   setActiveTab(`.project-list-item[id="${selectedProjectElement.id}"]`);
   showItems.appendChild(createProjectContainer(selectedProject));
 }
@@ -194,6 +194,17 @@ function updateEditedProject(projectInfo) {
   clearScreen();
   showItems.appendChild(createProjectContainer(projectInfo));
 }
+
+// function addNewTaskToProject() {
+//   const newTaskBtn = document.querySelector("#new-task-btn");
+//   const newTaskForm = document.querySelector("#new-task-form");
+//   const cancelButton = newTaskForm.querySelector("#cancel-task-btn");
+
+  
+// }
+
+
+
 
 
 export { addNewProject, showProjectList, toggleAddNewProjectButton, removeProject, editProject };

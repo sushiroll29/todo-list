@@ -18,8 +18,14 @@ import {
   resetForm,
 } from "./DOMmanipulation";
 
+
+
 let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 let taskId = Number(localStorage.getItem("taskId")) || 0; //make sure id doesn't reset to 0 after page reload
+
+let projects = localStorage.getItem("projects")
+  ? getFromLocalStorage("projects")
+  : [];
 
 function createTaskContainer(task) {
   const taskContainer = document.createElement("div");
@@ -116,6 +122,16 @@ function handleNewTaskSubmit(e) {
   const formTaskPriority = document.querySelector(
     'input[type="radio"]:checked'
   ).value;
+  let projectId = '';
+  let selectedProject = '';
+
+  const isProjectTabActive = document.getElementsByClassName("project-list-item active");
+  if(isProjectTabActive) {
+    //isProjectTabActive will always return an HTML collection with 1 item as the active class is applied to a single DOM element
+    let selectedProjectId = isProjectTabActive[0].id; 
+    selectedProject = findItemById(projects, selectedProjectId);
+    projectId = selectedProject.id;
+  }
 
   //creates the new task using info provided in the form
   const task = todo(
@@ -123,10 +139,16 @@ function handleNewTaskSubmit(e) {
     formTaskTitle,
     formTaskDescription,
     formTaskDueDate,
-    formTaskPriority
+    formTaskPriority,
+    false,
+    projectId
   );
-
-  //adds task to task list and updates the active tasks on the DOM
+  //add task to the selected project 
+  if(isProjectTabActive) {
+    selectedProject.taskList.push(task);
+    saveToLocalStorage("projects", projects);
+  }
+  //add task to task list and update the active tasks on the DOM
   tasks.push(task);
   //tasks get sorted by date every time a new one is added to the list
   sortTasksByDate();
