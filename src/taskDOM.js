@@ -323,6 +323,11 @@ function showTasksInProject(selectedProject) {
   });
 }
 
+function deleteAllTasksInProject(selectedProject) {
+  tasks = tasks.filter((task) => task.projectId != selectedProject.id);
+  saveToLocalStorage("tasks", tasks);
+}
+
 export {
   createTaskContainer,
   showActiveTasks,
@@ -334,4 +339,5 @@ export {
   editTask,
   removeTask,
   showTasksInProject,
+  deleteAllTasksInProject,
 };

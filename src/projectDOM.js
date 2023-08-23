@@ -9,7 +9,11 @@ import {
 import { project } from "./project";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
 import { findItemById, deleteItemById } from "./itemFunctions";
-import { showTasksInProject } from "./taskDOM";
+import {
+  deleteAllTasksInProject,
+  showActiveTasks,
+  showTasksInProject,
+} from "./taskDOM";
 
 let projects = localStorage.getItem("projects")
   ? getFromLocalStorage("projects")
@@ -140,17 +144,20 @@ function removeProject(e) {
   const projectList = document.querySelectorAll(".project-list-item");
   let projectListArr = Array.from(projectList);
   const projectId = e.target.parentNode.id;
-  let selectedProject = findItemById(projectListArr, projectId);
+  let selectedProjectElement = findItemById(projectListArr, projectId);
+  let selectedProject = findItemById(projects, projectId);
   e.target.parentNode.remove();
   projectListArr = projectListArr.filter(
-    (project) => project != selectedProject
+    (project) => project != selectedProjectElement
   );
-
+  deleteAllTasksInProject(selectedProject);
   //remove the task from the project array
   deleteItemById(projects, projectId);
   //re-stringify the array after removing the project
   saveToLocalStorage("projects", projects);
+  clearScreen();
   showProjectList();
+  showActiveTasks();
 }
 
 function editProject(e) {
