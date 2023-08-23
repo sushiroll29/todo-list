@@ -9,7 +9,7 @@ import {
   toggleComplete,
 } from "./taskDOM";
 import { showStickyWall, editSticky, removeSticky } from "./stickyDOM";
-import { addNewProject } from "./projectDOM";
+import { addNewProject, removeProject } from "./projectDOM";
 
 function openFormPopup(formType) {
   const formPopup = document.querySelector(`#${formType}`);
@@ -52,6 +52,7 @@ function handlePageEvent(e) {
   const timeAll = e.target.matches("#time-active");
 
   const newProject = e.target.matches("#new-project-btn");
+  const deleteProjectButton = e.target.matches(".delete-project-btn");
 
   const stickyWall = e.target.matches("#sticky-wall");
   const deleteStickyButton = e.target.matches(".delete-sticky-btn");
@@ -100,7 +101,11 @@ function handlePageEvent(e) {
     editSticky(e);
   } else if (newProject) {
     addNewProject();
-  } else return;
+  } else if (deleteProjectButton) {
+    removeProject(e);
+  }
+  
+  else return;
 }
 
 function pageEvent() {

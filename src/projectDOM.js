@@ -8,7 +8,7 @@ import {
 } from "./DOMmanipulation";
 import { project } from "./project";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
-import { findItemById } from "./itemFunctions";
+import { findItemById, deleteItemById } from "./itemFunctions";
 
 let projects = localStorage.getItem("projects")
   ? getFromLocalStorage("projects")
@@ -27,11 +27,20 @@ function createProjectListItem(project) {
 function createProjectContainer(project) {
   const projectContainer = document.createElement("div");
   projectContainer.classList.add("project-container");
+  projectContainer.id = project.id;
 
   const projectTitle = document.createElement("p");
   projectTitle.textContent = project.title;
 
-  projectContainer.appendChild(projectTitle);
+  const projectContainerEditBtn = document.createElement("button");
+  projectContainerEditBtn.classList.add("edit-project-btn");
+  projectContainerEditBtn.textContent = `Edit`;
+
+    const projectContainerDeleteBtn = document.createElement("button");
+    projectContainerDeleteBtn.classList.add("delete-project-btn");
+    projectContainerDeleteBtn.textContent = `Delete`;
+
+  projectContainer.append(projectTitle, projectContainerEditBtn, projectContainerDeleteBtn);
 
   return projectContainer;
 }
@@ -118,4 +127,26 @@ function toggleAddNewProjectButton() {
   }
 }
 
-export { addNewProject, showProjectList, toggleAddNewProjectButton };
+function removeProject(e) {
+  const projectList = document.querySelectorAll(".project-list-item");
+  let projectListArr = Array.from(projectList);
+  console.log(projectListArr)
+  //find the task that needs to be removed
+  const projectId = e.target.parentNode.id;
+  console.log(e.target);
+  let selectedProject = findItemById(projectListArr, projectId);
+console.log(selectedProject)
+  //remove the task from DOM
+  e.target.parentNode.remove();
+  projectListArr = projectListArr.filter(
+    (project) => project != selectedProject
+  );
+
+  //remove the task from the task array
+  deleteItemById(projects, projectId);
+  //re-stringify the array after removing the task
+  saveToLocalStorage("projects", projects);
+  showProjectList();
+}
+
+export { addNewProject, showProjectList, toggleAddNewProjectButton, removeProject };
