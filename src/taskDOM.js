@@ -17,7 +17,7 @@ import {
   closeFormPopup,
   resetForm,
 } from "./DOMmanipulation";
-import { removeTaskFromProject, openProject } from "./projectDOM";
+import { removeTaskFromProject, openProject, getProjectTabInfo } from "./projectDOM";
 
 let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 let taskId = Number(localStorage.getItem("taskId")) || 0; //make sure id doesn't reset to 0 after page reload
@@ -121,20 +121,17 @@ function handleNewTaskSubmit(e) {
   const formTaskPriority = document.querySelector(
     'input[type="radio"]:checked'
   ).value;
-  let projectId = "";
   let selectedProject = "";
   let selectedProjectElement = "";
 
   const isProjectTabActive = document.getElementsByClassName(
     "project-list-item active"
   );
-  if (isProjectTabActive) {
-    //isProjectTabActive will always return an HTML collection with 1 item as the active class is applied to a single DOM element
-    let selectedProjectId = isProjectTabActive[0].id;
-    selectedProjectElement = isProjectTabActive[0];
-    selectedProject = findItemById(projects, selectedProjectId);
-    projectId = selectedProject.id;
-  }
+  if(isProjectTabActive.length > 0) {
+    selectedProject = getProjectTabInfo()[0];
+    selectedProjectElement = findItemById(JSON.parse(localStorage.getItem("projects")), selectedProject.id);
+  } 
+
 
   //creates the new task using info provided in the form
   const task = todo(
@@ -144,11 +141,14 @@ function handleNewTaskSubmit(e) {
     formTaskDueDate,
     formTaskPriority,
     false,
-    projectId
+    selectedProject.id
   );
   //add task to the selected project
-  if (isProjectTabActive) {
-    selectedProject.taskList.push(task.id);
+  
+  if (isProjectTabActive.length > 0) {
+    projects = getFromLocalStorage("projects");
+    // console.log(selectedProjectElement)
+    findItemById(projects, selectedProject.id).taskList.push(task.id);
     saveToLocalStorage("projects", projects);
   }
   //add task to task list and update the active tasks on the DOM
@@ -160,7 +160,8 @@ function handleNewTaskSubmit(e) {
   showTasks.appendChild(createTaskContainer(task));
   closeFormPopup("new-task");
   resetForm("new-task-form");
-  isProjectTabActive ?  openProject(selectedProject, selectedProjectElement) : showActiveTasks();
+  isProjectTabActive.length > 0 ?  openProject(selectedProject, selectedProjectElement) : showActiveTasks();
+  // showActiveTasks();
 }
 
 function showTodayTasks() {
@@ -319,7 +320,7 @@ function sortTasksByDate() {
 function showTasksInProject(selectedProject) {
   const showTasks = document.querySelector(".show-items");
   tasks.forEach((task) => {
-    if (task.projectId === selectedProject.id) {
+    if (task.projectId == selectedProject.id) {
       showTasks.appendChild(createTaskContainer(task));
     }
   });

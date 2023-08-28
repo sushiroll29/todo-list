@@ -114,9 +114,9 @@ function openProject(selectedProject, selectedProjectElement) {
   setActiveTab(`.project-list-item[id="${selectedProjectElement.id}"]`);
   showItems.appendChild(createProjectContainer(selectedProject));
   showTasksInProject(selectedProject);
-  if (selectedProject.taskList) {
-    // console.log(selectedProject.taskList);
-  }
+  // if (selectedProject.taskList) {
+  //   console.log(selectedProject.taskList);
+  // }
 }
 
 function projectListEvent() {
@@ -221,6 +221,11 @@ function removeTaskFromProject(taskId, selectedProject) {
   }
 }
 
+function getProjectTabInfo() {
+    const projectElements = document.querySelectorAll(".project-list-item");
+   return Array.from(projectElements).filter(projectElement => projectElement.classList.contains("active"));
+}
+
 export {
   addNewProject,
   showProjectList,
@@ -228,5 +233,6 @@ export {
   removeProject,
   editProject,
   removeTaskFromProject, 
-  openProject
+  openProject,
+  getProjectTabInfo
 };
