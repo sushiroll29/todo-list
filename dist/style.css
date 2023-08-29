@@ -80,3 +80,52 @@ ul {
   cursor: pointer;
   background-color: darkgray;
 }
+
+coll-active {
+  background-color: aquamarine;
+}
+
+.coll-content {
+  display: none;
+  overflow: hidden;
+}
+
+
+
+.tc-element {
+  margin: 0px 4px;
+}
+
+.coll-primary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.task-container-arrow {
+  
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 2px;
+  transform: rotate(45deg);
+-webkit-transform: rotate(45deg);
+margin-left: auto;
+}
+
+/* .edit-task-btn, .delete-task-btn {
+  margin-left: auto;
+  margin-right: 0;
+} */
+
+.container > .main-screen {
+  flex: 1;
+}
+
+.task-container-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
