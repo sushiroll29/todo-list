@@ -6,12 +6,16 @@
     <title>ToDo List</title>
     <script src="main.js" defer></script>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   </head>
   <body>
+    <header>ToDo</header>
     <div class="container">
       <div id="sidebar">
         <ul class="task-content">
-          Tasks
+          TASKS
           <li><button class="task-filter" id="time-active">Active</button></li>
           <li><button class="task-filter" id="time-today">Today</button></li>
           <li>
@@ -19,15 +23,20 @@
           </li>
           <li><button class="task-filter" id="completed">Completed</button></li>
         </ul>
-        <ul class="priority">
-          Priority
-          <li><button class="task-filter" id="low-priority">Low</button></li>
-          <li>
-            <button class="task-filter" id="medium-priority">Medium</button>
-          </li>
-          <li><button class="task-filter" id="high-priority">High</button></li>
+        
+        <div class="priority">
+          <p>PRIORITY</p>
+          <div id="priority-items">
+            <button class="task-filter" id="low-priority">LOW</button>
+          
+            <button class="task-filter" id="medium-priority">MEDIUM</button>
+          
+          <button class="task-filter" id="high-priority">HIGH</button>
+          </div>
+          
+        </div>
+        <ul class="project-content">
         </ul>
-        <ul class="project-content"></ul>
         <button id="new-project-btn">Add new project</button>
         <div id="new-project">
           <form action="" class="form-container" id="new-project-form">
@@ -38,8 +47,8 @@
               required
             />
             <div class="form-button">
-              <button type="submit" id="submit-project-btn">Add</button>
-              <button type="button" id="cancel-project-btn">Cancel</button>
+              <button type="submit" class="add-btn" id="submit-project-btn">Add</button>
+              <button type="button" class="cancel-btn" id="cancel-project-btn">Cancel</button>
             </div>
           </form>
         </div>
@@ -52,13 +61,13 @@
               required
             />
             <div class="form-button">
-              <button type="submit" id="save-edit-btn">Save</button>
-              <button type="button" id="cancel-edit-btn">Cancel</button>
+              <button type="submit" class="save-btn" id="save-edit-btn">Save</button>
+              <button type="button" class="cancel-btn" id="cancel-edit-btn">Cancel</button>
             </div>
           </form>
         </div>
         <ul class="sticky-content">
-          <button class="task-filter" id="sticky-wall">Sticky wall</button>
+          <button class="task-filter" id="sticky-wall">STICKY WALL</button>
         </ul>
       </div>
       <div id="task-display">
@@ -165,8 +174,8 @@
               </div>
             </fieldset>
             <div class="form-button">
-              <button type="submit" id="save-edit-btn">Save</button>
-              <button type="button" id="cancel-edit-btn">Cancel</button>
+              <button type="submit" class="save-btn" id="save-edit-btn">Save</button>
+              <button type="button" class="cancel-btn" id="cancel-edit-btn">Cancel</button>
             </div>
           </form>
         </div>
@@ -178,8 +187,8 @@
             <label for="sticky-content">Description</label>
             <input type="text" id="sticky-content" placeholder="Add content" />
             <div class="form-button">
-              <button type="submit" id="submit-sticky-btn">Add</button>
-              <button type="button" id="cancel-sticky-btn">Cancel</button>
+              <button type="submit" class="add-btn" id="submit-sticky-btn">Add</button>
+              <button type="button" class="cancel-btn" id="cancel-sticky-btn">Cancel</button>
             </div>
           </form>
         </div>
@@ -197,8 +206,8 @@
             <input type="text" id="edit-sticky-content" />
 
             <div class="form-button">
-              <button type="submit" id="save-edit-btn">Save</button>
-              <button type="button" id="cancel-edit-btn">Cancel</button>
+              <button type="submit" class="save-btn" id="save-edit-btn">Save</button>
+              <button type="button" class="cancel-btn" id="cancel-edit-btn">Cancel</button>
             </div>
           </form>
         </div>
