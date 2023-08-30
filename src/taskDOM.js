@@ -17,7 +17,11 @@ import {
   closeFormPopup,
   resetForm,
 } from "./DOMmanipulation";
-import { removeTaskFromProject, openProject, getProjectTabInfo } from "./projectDOM";
+import {
+  removeTaskFromProject,
+  openProject,
+  getProjectTabInfo,
+} from "./projectDOM";
 
 let tasks = localStorage.getItem("tasks") ? getFromLocalStorage("tasks") : [];
 let taskId = Number(localStorage.getItem("taskId")) || 0; //make sure id doesn't reset to 0 after page reload
@@ -33,7 +37,6 @@ function createTaskContainer(task) {
 
   const taskPrimaryContent = document.createElement("div");
   taskPrimaryContent.classList.add("coll-primary");
-  // taskContainer.appendChild(taskPrimaryContent);
 
   const taskContainerTitle = document.createElement("span");
   taskContainerTitle.classList.add("task-container-title");
@@ -46,13 +49,18 @@ function createTaskContainer(task) {
   taskCollapsibleContent.classList.add("coll-content");
 
   const taskContainerDescription = document.createElement("p");
-  taskContainerDescription.classList.add("task-container-description", "tc-element");
-  taskContainerDescription.textContent = `Description: ${task.description}`;
+  taskContainerDescription.classList.add(
+    "task-container-description",
+    "tc-element"
+  );
+  taskContainerDescription.textContent = `${task.description}`;
   taskCollapsibleContent.appendChild(taskContainerDescription);
 
   const taskContainerDate = document.createElement("p");
   taskContainerDate.classList.add("task-container-date", "tc-element");
-  taskContainerDate.textContent = `Due: ${formatDate(task.dueDate)}`;
+  task.dueDate
+    ? (taskContainerDate.textContent = `Due on ${formatDate(task.dueDate)}`)
+    : (taskContainerDate.textContent = `No due date`);
 
   const taskContainerPriority = document.createElement("p");
   taskContainerPriority.classList.add("task-container-priority", "tc-element");
@@ -74,13 +82,20 @@ function createTaskContainer(task) {
     taskContainerDeleteBtn.classList.add("delete-task-btn", "tc-element");
     taskContainerDeleteBtn.textContent = `Delete`;
 
-    taskContainerRight.append(taskContainerDate, taskContainerPriority, taskContainerEditBtn, taskContainerDeleteBtn, taskContainerArrow);
-    taskPrimaryContent.append(taskContainerCompleteBtn, taskContainerTitle, taskContainerRight);
-
-    taskContainer.append(
-      taskPrimaryContent,
-      taskCollapsibleContent,
+    taskContainerRight.append(
+      taskContainerDate,
+      taskContainerPriority,
+      taskContainerEditBtn,
+      taskContainerDeleteBtn,
+      taskContainerArrow
     );
+    taskPrimaryContent.append(
+      taskContainerCompleteBtn,
+      taskContainerTitle,
+      taskContainerRight
+    );
+
+    taskContainer.append(taskPrimaryContent, taskCollapsibleContent);
   } else {
     const taskContainerUnmarkCompleteBtn = document.createElement("button");
     taskContainerUnmarkCompleteBtn.classList.add("unmark-complete-btn");
@@ -90,13 +105,22 @@ function createTaskContainer(task) {
     taskContainerDeleteBtn.classList.add("delete-btn");
     taskContainerDeleteBtn.textContent = `Delete`;
 
-    taskPrimaryContent.append(taskContainerUnmarkCompleteBtn, taskContainerDeleteBtn);
+    taskContainerRight.append(
+      taskContainerDate,
+      taskContainerPriority,
+      taskContainerDeleteBtn,
+      taskContainerArrow
+    );
+
+    taskPrimaryContent.append(
+      taskContainerUnmarkCompleteBtn,
+      taskContainerTitle,
+      taskContainerRight
+    );
 
     taskContainer.append(
       taskPrimaryContent,
-      taskCollapsibleContent,
-      // taskContainerUnmarkCompleteBtn,
-      // taskContainerDeleteBtn
+      taskCollapsibleContent
     );
   }
 
@@ -139,11 +163,13 @@ function handleNewTaskSubmit(e) {
   const isProjectTabActive = document.getElementsByClassName(
     "project-list-item active"
   );
-  if(isProjectTabActive.length > 0) {
+  if (isProjectTabActive.length > 0) {
     selectedProject = getProjectTabInfo()[0];
-    selectedProjectItem = findItemById(JSON.parse(localStorage.getItem("projects")), selectedProject.id);
-  } 
-
+    selectedProjectItem = findItemById(
+      JSON.parse(localStorage.getItem("projects")),
+      selectedProject.id
+    );
+  }
 
   //creates the new task using info provided in the form
   const task = todo(
@@ -156,7 +182,7 @@ function handleNewTaskSubmit(e) {
     selectedProject.id
   );
   //add task to the selected project
-  
+
   if (isProjectTabActive.length > 0) {
     projects = getFromLocalStorage("projects");
     // console.log(selectedProjectItem)
@@ -172,7 +198,9 @@ function handleNewTaskSubmit(e) {
   showTasks.appendChild(createTaskContainer(task));
   closeFormPopup("new-task");
   resetForm("new-task-form");
-  isProjectTabActive.length > 0 ?  openProject(selectedProject, selectedProjectItem) : showActiveTasks();
+  isProjectTabActive.length > 0
+    ? openProject(selectedProject, selectedProjectItem)
+    : showActiveTasks();
   // showActiveTasks();
 }
 
@@ -200,7 +228,7 @@ function showActiveTasks() {
     }
   });
   addNewTask();
-  createSmallTaskContainer();
+  createCollapsibleTaskContainer();
 }
 
 function showPriorityTasks(priorityType) {
@@ -213,7 +241,6 @@ function removeTask(e) {
   const taskContainers = document.querySelectorAll(".task-container");
   let taskContainersList = Array.from(taskContainers);
   //find the task that needs to be removed
-  // const taskId = e.target.parentNode.id;
   const taskId = e.target.closest(".task-container").id;
   let selectedTaskContainer = findItemById(taskContainersList, taskId);
   let selectedTask = findItemById(tasks, taskId);
@@ -321,6 +348,7 @@ function showCompletedTasks() {
   clearScreen();
   setActiveTab("#completed");
   getCompletedTasks();
+  createCollapsibleTaskContainer();
 }
 
 function sortTasksByDate() {
@@ -345,20 +373,20 @@ function deleteAllTasksInProject(selectedProject) {
   saveToLocalStorage("tasks", tasks);
 }
 
-function createSmallTaskContainer() {
-  const coll = document.getElementsByClassName("task-container");
-for (let i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("coll-active");
-    //each task-container has 2 children: primary content and collapsible content
-    let content = this.children[1];
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  });
-}
+function createCollapsibleTaskContainer() {
+  const containers = document.getElementsByClassName("task-container");
+  for (let i = 0; i < containers.length; i++) {
+    containers[i].addEventListener("click", function () {
+      this.classList.toggle("coll-active");
+      //each task-container has 2 children: primary content and collapsible content
+      let collapsibleContent = this.children[1];
+      if (collapsibleContent.style.display === "block") {
+        collapsibleContent.style.display = "none";
+      } else {
+        collapsibleContent.style.display = "block";
+      }
+    });
+  }
 }
 
 export {
@@ -372,6 +400,5 @@ export {
   editTask,
   removeTask,
   showTasksInProject,
-  deleteAllTasksInProject,
-  createSmallTaskContainer
+  deleteAllTasksInProject
 };

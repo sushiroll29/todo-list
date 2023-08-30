@@ -100,7 +100,7 @@ function handleNewProjectSubmit(e) {
 
 function showProjectList() {
   const projectList = document.querySelector(".project-content");
-  projectList.textContent = "Projects";
+  projectList.textContent = "PROJECTS";
   projects.forEach((project) => {
     projectList.appendChild(createProjectListItem(project));
   });
@@ -222,8 +222,10 @@ function removeTaskFromProject(taskId, selectedProject) {
 }
 
 function getProjectTabInfo() {
-    const projectElements = document.querySelectorAll(".project-list-item");
-   return Array.from(projectElements).filter(projectElement => projectElement.classList.contains("active"));
+  const projectElements = document.querySelectorAll(".project-list-item");
+  return Array.from(projectElements).filter((projectElement) =>
+    projectElement.classList.contains("active")
+  );
 }
 
 export {
@@ -232,7 +234,7 @@ export {
   toggleAddNewProjectButton,
   removeProject,
   editProject,
-  removeTaskFromProject, 
+  removeTaskFromProject,
   openProject,
-  getProjectTabInfo
+  getProjectTabInfo,
 };
