@@ -107,7 +107,7 @@ button:hover {
 
 .container > .main-screen {
   flex: 1;
-  padding: 0 10rem;
+  padding: 0.5rem 10rem;
 }
 
 .task-container-right {
@@ -115,7 +115,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .task-container-date {
@@ -291,7 +291,8 @@ button#high-priority.active {
   align-self: flex-end;
 }
 
-.task-container-right button, .sticky-btn-area button {
+.task-container-right button,
+.sticky-btn-area button {
   border: none;
   background: transparent;
 }
@@ -304,11 +305,51 @@ button#high-priority.active {
 .sticky-btn-area {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 header {
-  background-color: var(--active-button-color);
+  background-color: #b1b1b1;
   height: 15vh;
   font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 0.5rem;
+
+  /* animation: changeColor ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 10s;
+    animation-fill-mode: both; */
+}
+
+#header-title {
+  color: white;
+  font-size: 3rem;
+}
+
+#header-icon {
+  width: 3rem;
+}
+
+@keyframes changeColor {
+  0% {
+    background-color: #b5ece3;
+  }
+
+  25% {
+    background-color: #fbd1d6;
+  }
+
+  50% {
+    background-color: #decdf6;
+  }
+
+  75% {
+    background-color: #bcdaf1;
+  }
+
+  100% {
+    background-color: #b5ece3;
+  }
 }
