@@ -1,6 +1,6 @@
 import { sticky } from "./sticky";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
-import { clearScreen } from "./DOMmanipulation";
+import { clearScreen, createDeleteBtn, createEditBtn } from "./DOMmanipulation";
 import { setActiveTab } from "./DOMmanipulation";
 import { openFormPopup, closeFormPopup, resetForm } from "./DOMmanipulation";
 import { deleteItemById, findItemById } from "./itemFunctions";
@@ -29,13 +29,11 @@ function createStickyContainer(sticky) {
   const stickyButtonContainer = document.createElement("div");
   stickyButtonContainer.classList.add("sticky-btn-area");
 
-  const stickyContainerEditBtn = document.createElement("button");
+  const stickyContainerEditBtn = createEditBtn('sticky');
   stickyContainerEditBtn.classList.add("edit-sticky-btn");
-  stickyContainerEditBtn.textContent = `Edit`;
 
-  const stickyContainerDeleteBtn = document.createElement("button");
+  const stickyContainerDeleteBtn = createDeleteBtn('sticky');
   stickyContainerDeleteBtn.classList.add("delete-sticky-btn");
-  stickyContainerDeleteBtn.textContent = `Delete`;
 
   stickyInfoContainer.append(stickyContainerTitle, stickyContainerContent);
 
@@ -118,10 +116,10 @@ function assignBackgroundColors() {
 function removeSticky(e) {
   const stickyContainers = document.querySelectorAll(".sticky-container");
   let stickyContainersList = Array.from(stickyContainers);
-  const stickyId = e.target.parentNode.id;
+  const stickyId = e.target.closest(".sticky-container").id;
   let selectedStickyContainer = findItemById(stickyContainersList, stickyId);
 
-  e.target.parentNode.remove();
+  e.target.closest(".sticky-container").remove();
   stickyContainersList = stickyContainersList.filter(
     (stickyContainer) => stickyContainer != selectedStickyContainer
   );
@@ -140,7 +138,7 @@ function populateStickyForm(stickyInfo) {
 }
 
 function editSticky(e) {
-  const stickyId = e.target.parentNode.id;
+  const stickyId = e.target.closest(".sticky-container").id;
   let selectedSticky = findItemById(stickies, stickyId);
   const editForm = document.querySelector("#edit-sticky-form");
   const cancelButton = editForm.querySelector("#cancel-edit-btn");

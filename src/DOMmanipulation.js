@@ -44,8 +44,8 @@ function changeAddBtn(btn) {
 }
 
 function handlePageEvent(e) {
-  const deleteTaskButton = e.target.matches(".delete-icon");
-  const editTaskButton = e.target.matches(".edit-icon");
+  const deleteTaskButton = e.target.matches(".delete-task-icon");
+  const editTaskButton = e.target.matches(".edit-task-icon");
   const arrowTaskButton = e.target.matches(".arrow-icon")
   const markCompleteButton = e.target.matches(".complete-btn");
   const unmarkCompleteButton = e.target.matches(".unmark-complete-btn");
@@ -58,8 +58,8 @@ function handlePageEvent(e) {
   const editProjectButton = e.target.matches(".edit-project-btn");
 
   const stickyWall = e.target.matches("#sticky-wall");
-  const deleteStickyButton = e.target.matches(".delete-sticky-btn");
-  const editStickyButton = e.target.matches(".edit-sticky-btn");
+  const deleteStickyButton = e.target.matches(".delete-sticky-icon");
+  const editStickyButton = e.target.matches(".edit-sticky-icon");
 
   const completed = e.target.matches("#completed");
   const priorityLow = e.target.matches("#low-priority");
@@ -77,25 +77,25 @@ function handlePageEvent(e) {
   } else if (unmarkCompleteButton) {
     toggleComplete(e, false);
   } else if (timeToday) {
-    changeAddBtn("new-task-btn");
+    // changeAddBtn("new-task-btn");
     showTodayTasks();
   } else if (timeAll) {
     changeAddBtn("new-task-btn");
     showActiveTasks();
   } else if (timeUpcoming) {
-    changeAddBtn("new-task-btn");
+    // changeAddBtn("new-task-btn");
     showUpcomingTasks();
   } else if (completed) {
-    changeAddBtn("new-task-btn");
+    // changeAddBtn("new-task-btn");
     showCompletedTasks();
   } else if (priorityLow) {
-    changeAddBtn("new-task-btn");
+    // changeAddBtn("new-task-btn");
     showPriorityTasks("low");
   } else if (priorityMedium) {
-    changeAddBtn("new-task-btn");
+    // changeAddBtn("new-task-btn");
     showPriorityTasks("medium");
   } else if (priorityHigh) {
-    changeAddBtn("new-task-btn");
+    // changeAddBtn("new-task-btn");
     showPriorityTasks("high");
   } else if (stickyWall) {
     changeAddBtn("new-sticky-btn");
@@ -137,22 +137,22 @@ function setActiveTab(tab) {
   currActive.classList.add("active");
 }
 
-function createEditBtn() {
+function createEditBtn(className) {
   const editBtn = document.createElement("button");
     const editIcon = document.createElement("img");
     editIcon.alt = "edit-icon";
-    editIcon.classList.add("icon-content", "edit-icon");
+    editIcon.classList.add("icon-content", `edit-${className}-icon`);
     editIcon.src = "../icons/edit.png";
     editBtn.appendChild(editIcon);
 
     return editBtn;
 }
 
-function createDeleteBtn() {
+function createDeleteBtn(className) {
   const deleteBtn = document.createElement("button");
     const deleteIcon = document.createElement("img");
     deleteIcon.alt = "delete-icon";
-    deleteIcon.classList.add("icon-content", "delete-icon");
+    deleteIcon.classList.add("icon-content", `delete-${className}-icon`);
     deleteIcon.src = "../icons/delete.png";
     deleteBtn.appendChild(deleteIcon);
 

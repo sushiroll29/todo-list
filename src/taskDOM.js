@@ -68,7 +68,7 @@ function createTaskContainer(task) {
   taskContainerPriority.classList.add("task-container-priority", "tc-element");
   taskContainerPriority.textContent = `Priority: ${task.priority}`;
 
-  const taskContainerDeleteBtn = createDeleteBtn();
+  const taskContainerDeleteBtn = createDeleteBtn('task');
   taskContainerDeleteBtn.classList.add(
     "delete-task-btn",
     "tc-element",
@@ -88,7 +88,7 @@ function createTaskContainer(task) {
     taskContainerCompleteBtn.classList.add("complete-btn", "tc-element");
     taskContainerCompleteBtn.textContent = `Mark completed`;
 
-    const taskContainerEditBtn = createEditBtn();
+    const taskContainerEditBtn = createEditBtn('task');
     taskContainerEditBtn.classList.add(
       "edit-task-btn",
       "tc-element",
