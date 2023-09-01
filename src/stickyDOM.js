@@ -15,6 +15,9 @@ function createStickyContainer(sticky) {
   stickyContainer.classList.add("sticky-container");
   stickyContainer.id = sticky.id;
 
+  const stickyInfoContainer = document.createElement("div");
+  stickyInfoContainer.classList.add("sticky-info-area");
+
   const stickyContainerTitle = document.createElement("p");
   stickyContainerTitle.classList.add("sticky-container-title");
   stickyContainerTitle.textContent = `${sticky.title}`;
@@ -22,6 +25,9 @@ function createStickyContainer(sticky) {
   const stickyContainerContent = document.createElement("p");
   stickyContainerContent.classList.add("sticky-container-content");
   stickyContainerContent.textContent = `${sticky.content}`;
+
+  const stickyButtonContainer = document.createElement("div");
+  stickyButtonContainer.classList.add("sticky-btn-area");
 
   const stickyContainerEditBtn = document.createElement("button");
   stickyContainerEditBtn.classList.add("edit-sticky-btn");
@@ -31,12 +37,14 @@ function createStickyContainer(sticky) {
   stickyContainerDeleteBtn.classList.add("delete-sticky-btn");
   stickyContainerDeleteBtn.textContent = `Delete`;
 
-  stickyContainer.append(
-    stickyContainerTitle,
-    stickyContainerContent,
+  stickyInfoContainer.append(stickyContainerTitle, stickyContainerContent);
+
+  stickyButtonContainer.append(
     stickyContainerEditBtn,
     stickyContainerDeleteBtn
   );
+
+  stickyContainer.append(stickyButtonContainer, stickyInfoContainer);
 
   return stickyContainer;
 }
@@ -44,11 +52,9 @@ function createStickyContainer(sticky) {
 function showStickyWall() {
   clearScreen();
   setActiveTab("#sticky-wall");
-  const showStickies = document.querySelector(".show-items");
+  const showStickies = document.querySelector(".show-stickies");
   stickies.forEach((sticky) => {
-    if (!sticky.completed) {
-      showStickies.appendChild(createStickyContainer(sticky));
-    }
+    showStickies.appendChild(createStickyContainer(sticky));
   });
   addNewSticky();
   assignBackgroundColors();
@@ -76,7 +82,7 @@ function addNewSticky() {
 
 function handleNewStickySubmit(e) {
   e.preventDefault();
-  const showStickies = document.querySelector(".show-items");
+  const showStickies = document.querySelector(".show-stickies");
 
   const itemId = stickyId;
   stickyId++;
@@ -127,9 +133,7 @@ function removeSticky(e) {
 
 function populateStickyForm(stickyInfo) {
   const initialStickyTitle = document.querySelector("#edit-sticky-title");
-  const initialStickyContent = document.querySelector(
-    "#edit-sticky-content"
-  );
+  const initialStickyContent = document.querySelector("#edit-sticky-content");
 
   initialStickyTitle.value = stickyInfo.title;
   initialStickyContent.value = stickyInfo.content;
@@ -163,7 +167,6 @@ function handleEditStickySubmit(stickyInfo) {
       const newStickyContent = document.querySelector(
         "#edit-sticky-content"
       ).value;
-      
 
       stickyInfo.title = newStickyTitle;
       stickyInfo.content = newStickyContent;
@@ -172,7 +175,8 @@ function handleEditStickySubmit(stickyInfo) {
       closeFormPopup("edit-sticky");
       showStickyWall();
     },
-    { once: true });
+    { once: true }
+  );
 }
 
 export { createStickyContainer, showStickyWall, editSticky, removeSticky };

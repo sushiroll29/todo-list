@@ -7,6 +7,7 @@ import {
   editTask,
   removeTask,
   toggleComplete,
+  showCollapsedContent,
 } from "./taskDOM";
 import { showStickyWall, editSticky, removeSticky } from "./stickyDOM";
 import { addNewProject, editProject, removeProject } from "./projectDOM";
@@ -43,8 +44,9 @@ function changeAddBtn(btn) {
 }
 
 function handlePageEvent(e) {
-  const deleteTaskButton = e.target.matches(".delete-task-btn");
-  const editTaskButton = e.target.matches(".edit-task-btn");
+  const deleteTaskButton = e.target.matches(".delete-icon");
+  const editTaskButton = e.target.matches(".edit-icon");
+  const arrowTaskButton = e.target.matches(".arrow-icon")
   const markCompleteButton = e.target.matches(".complete-btn");
   const unmarkCompleteButton = e.target.matches(".unmark-complete-btn");
   const timeToday = e.target.matches("#time-today");
@@ -68,6 +70,8 @@ function handlePageEvent(e) {
     removeTask(e);
   } else if (editTaskButton) {
     editTask(e);
+  } else if (arrowTaskButton) {
+    showCollapsedContent(e);
   } else if (markCompleteButton) {
     toggleComplete(e, true);
   } else if (unmarkCompleteButton) {
@@ -120,6 +124,7 @@ function pageEvent() {
 function clearScreen() {
   const showTasks = document.querySelector(".show-items");
   showTasks.textContent = "";
+  document.querySelector(".show-stickies").textContent = "";
 }
 
 function setActiveTab(tab) {
@@ -132,6 +137,28 @@ function setActiveTab(tab) {
   currActive.classList.add("active");
 }
 
+function createEditBtn() {
+  const editBtn = document.createElement("button");
+    const editIcon = document.createElement("img");
+    editIcon.alt = "edit-icon";
+    editIcon.classList.add("icon-content", "edit-icon");
+    editIcon.src = "../icons/edit.png";
+    editBtn.appendChild(editIcon);
+
+    return editBtn;
+}
+
+function createDeleteBtn() {
+  const deleteBtn = document.createElement("button");
+    const deleteIcon = document.createElement("img");
+    deleteIcon.alt = "delete-icon";
+    deleteIcon.classList.add("icon-content", "delete-icon");
+    deleteIcon.src = "../icons/delete.png";
+    deleteBtn.appendChild(deleteIcon);
+
+  return deleteBtn;
+}
+
 export {
   formatDate,
   pageEvent,
@@ -141,4 +168,6 @@ export {
   openFormPopup,
   closeFormPopup,
   resetForm,
+  createDeleteBtn,
+  createEditBtn
 };

@@ -14,7 +14,7 @@ function sticky(id, title, content) {
 }
 
 function getStickies() {
-  const showStickies = document.querySelector(".show-items");
+  const showStickies = document.querySelector(".show-stickies");
   stickies.forEach((sticky) => {
     showStickies.appendChild(createStickyContainer(sticky));
   });

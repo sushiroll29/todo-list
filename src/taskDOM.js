@@ -16,6 +16,8 @@ import {
   openFormPopup,
   closeFormPopup,
   resetForm,
+  createDeleteBtn,
+  createEditBtn,
 } from "./DOMmanipulation";
 import {
   removeTaskFromProject,
@@ -66,28 +68,39 @@ function createTaskContainer(task) {
   taskContainerPriority.classList.add("task-container-priority", "tc-element");
   taskContainerPriority.textContent = `Priority: ${task.priority}`;
 
-  const taskContainerArrow = document.createElement("i");
-  taskContainerArrow.classList.add("task-container-arrow", "tc-element");
+  const taskContainerDeleteBtn = createDeleteBtn();
+  taskContainerDeleteBtn.classList.add(
+    "delete-task-btn",
+    "tc-element",
+    "delete-content"
+  );
+
+  const taskContainerArrowBtn = document.createElement("button");
+  taskContainerArrowBtn.classList.add("arrow-task-btn", "tc-element");
+  const arrowIcon = document.createElement("img");
+  arrowIcon.alt = "arrow-down-icon";
+  arrowIcon.classList.add("icon-content", "arrow-icon");
+  arrowIcon.src = "../icons/down-arrow.png";
+  taskContainerArrowBtn.appendChild(arrowIcon);
 
   if (!task.completed) {
     const taskContainerCompleteBtn = document.createElement("button");
     taskContainerCompleteBtn.classList.add("complete-btn", "tc-element");
     taskContainerCompleteBtn.textContent = `Mark completed`;
 
-    const taskContainerEditBtn = document.createElement("button");
-    taskContainerEditBtn.classList.add("edit-task-btn", "tc-element");
-    taskContainerEditBtn.textContent = `Edit`;
-
-    const taskContainerDeleteBtn = document.createElement("button");
-    taskContainerDeleteBtn.classList.add("delete-task-btn", "tc-element");
-    taskContainerDeleteBtn.textContent = `Delete`;
+    const taskContainerEditBtn = createEditBtn();
+    taskContainerEditBtn.classList.add(
+      "edit-task-btn",
+      "tc-element",
+      "edit-content"
+    );
 
     taskContainerRight.append(
       taskContainerDate,
       taskContainerPriority,
       taskContainerEditBtn,
       taskContainerDeleteBtn,
-      taskContainerArrow
+      taskContainerArrowBtn
     );
     taskPrimaryContent.append(
       taskContainerCompleteBtn,
@@ -101,15 +114,11 @@ function createTaskContainer(task) {
     taskContainerUnmarkCompleteBtn.classList.add("unmark-complete-btn");
     taskContainerUnmarkCompleteBtn.textContent = `Unmark completed`;
 
-    const taskContainerDeleteBtn = document.createElement("button");
-    taskContainerDeleteBtn.classList.add("delete-btn");
-    taskContainerDeleteBtn.textContent = `Delete`;
-
     taskContainerRight.append(
       taskContainerDate,
       taskContainerPriority,
       taskContainerDeleteBtn,
-      taskContainerArrow
+      taskContainerArrowBtn
     );
 
     taskPrimaryContent.append(
@@ -118,10 +127,7 @@ function createTaskContainer(task) {
       taskContainerRight
     );
 
-    taskContainer.append(
-      taskPrimaryContent,
-      taskCollapsibleContent
-    );
+    taskContainer.append(taskPrimaryContent, taskCollapsibleContent);
   }
 
   return taskContainer;
@@ -201,7 +207,6 @@ function handleNewTaskSubmit(e) {
   isProjectTabActive.length > 0
     ? openProject(selectedProject, selectedProjectItem)
     : showActiveTasks();
-  // showActiveTasks();
 }
 
 function showTodayTasks() {
@@ -228,7 +233,6 @@ function showActiveTasks() {
     }
   });
   addNewTask();
-  createCollapsibleTaskContainer();
 }
 
 function showPriorityTasks(priorityType) {
@@ -348,7 +352,7 @@ function showCompletedTasks() {
   clearScreen();
   setActiveTab("#completed");
   getCompletedTasks();
-  createCollapsibleTaskContainer();
+  // createCollapsibleTaskContainer();
 }
 
 function sortTasksByDate() {
@@ -373,21 +377,19 @@ function deleteAllTasksInProject(selectedProject) {
   saveToLocalStorage("tasks", tasks);
 }
 
-function createCollapsibleTaskContainer() {
-  const containers = document.getElementsByClassName("task-container");
-  for (let i = 0; i < containers.length; i++) {
-    containers[i].addEventListener("click", function () {
-      this.classList.toggle("coll-active");
-      //each task-container has 2 children: primary content and collapsible content
-      let collapsibleContent = this.children[1];
-      if (collapsibleContent.style.display === "block") {
-        collapsibleContent.style.display = "none";
-      } else {
-        collapsibleContent.style.display = "block";
-      }
-    });
+
+function showCollapsedContent(e) {
+  const selectedTaskElement = e.target.closest(".task-container");
+  selectedTaskElement.classList.toggle("coll-active");
+  //each task-container has 2 children: primary content and collapsible content
+  let collapsibleContent = selectedTaskElement.children[1];
+  if (collapsibleContent.style.display === "block") {
+    collapsibleContent.style.display = "none";
+  } else {
+    collapsibleContent.style.display = "block";
   }
 }
+
 
 export {
   createTaskContainer,
@@ -400,5 +402,6 @@ export {
   editTask,
   removeTask,
   showTasksInProject,
-  deleteAllTasksInProject
+  deleteAllTasksInProject,
+  showCollapsedContent,
 };
