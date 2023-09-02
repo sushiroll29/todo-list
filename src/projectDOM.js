@@ -114,9 +114,6 @@ function openProject(selectedProject, selectedProjectElement) {
   setActiveTab(`.project-list-item[id="${selectedProjectElement.id}"]`);
   showItems.appendChild(createProjectContainer(selectedProject));
   showTasksInProject(selectedProject);
-  // if (selectedProject.taskList) {
-  //   console.log(selectedProject.taskList);
-  // }
 }
 
 function projectListEvent() {

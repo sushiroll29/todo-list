@@ -15,7 +15,7 @@
   </head>
   <body>
     <header>
-      <img src="../icons/check.png" alt="check-icon" id="header-icon">
+      <img src="../icons/check.png" alt="check-icon" id="header-icon" />
       <h1 id="header-title">To-Do</h1>
     </header>
     <div class="container">
@@ -25,7 +25,9 @@
           <li><button class="task-filter" id="time-active">Active</button></li>
           <li><button class="task-filter" id="time-today">Today</button></li>
           <li>
-            <button class="task-filter" id="time-upcoming">Upcoming week</button>
+            <button class="task-filter" id="time-upcoming">
+              Upcoming week
+            </button>
           </li>
           <li><button class="task-filter" id="completed">Completed</button></li>
         </ul>
@@ -41,7 +43,12 @@
           </div>
         </div>
         <ul class="project-content"></ul>
-        <button id="new-project-btn">Add new project</button>
+        <button id="new-project-btn">
+          <span
+            ><img src="../icons/add.png" alt="add-icon" class="add-icon"
+          /></span>
+          Add new project
+        </button>
         <div id="new-project">
           <form action="" class="form-container" id="new-project-form">
             <input
@@ -233,8 +240,18 @@
         </div>
       </div>
       <div class="main-screen">
-        <button id="new-task-btn">Add new task</button>
-        <button id="new-sticky-btn">Add new sticky</button>
+        <button id="new-task-btn">
+          <span
+            ><img src="../icons/add.png" alt="add-icon" class="add-icon"
+          /></span>
+          Add new task
+        </button>
+        <button id="new-sticky-btn">
+          <span
+            ><img src="../icons/add.png" alt="add-icon" class="add-icon"
+          /></span>
+          Add new sticky
+        </button>
         <div class="show-items"></div>
         <div class="show-stickies"></div>
       </div>

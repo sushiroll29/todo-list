@@ -46,7 +46,7 @@ function changeAddBtn(btn) {
 function handlePageEvent(e) {
   const deleteTaskButton = e.target.matches(".delete-task-icon");
   const editTaskButton = e.target.matches(".edit-task-icon");
-  const arrowTaskButton = e.target.matches(".arrow-icon")
+  const arrowTaskButton = e.target.matches(".arrow-icon");
   const markCompleteButton = e.target.matches(".complete-btn");
   const unmarkCompleteButton = e.target.matches(".unmark-complete-btn");
   const timeToday = e.target.matches("#time-today");
@@ -77,25 +77,25 @@ function handlePageEvent(e) {
   } else if (unmarkCompleteButton) {
     toggleComplete(e, false);
   } else if (timeToday) {
-    // changeAddBtn("new-task-btn");
+    changeAddBtn("");
     showTodayTasks();
   } else if (timeAll) {
     changeAddBtn("new-task-btn");
     showActiveTasks();
   } else if (timeUpcoming) {
-    // changeAddBtn("new-task-btn");
+    changeAddBtn("");
     showUpcomingTasks();
   } else if (completed) {
-    // changeAddBtn("new-task-btn");
+    changeAddBtn("");
     showCompletedTasks();
   } else if (priorityLow) {
-    // changeAddBtn("new-task-btn");
+    changeAddBtn("");
     showPriorityTasks("low");
   } else if (priorityMedium) {
-    // changeAddBtn("new-task-btn");
+    changeAddBtn("");
     showPriorityTasks("medium");
   } else if (priorityHigh) {
-    // changeAddBtn("new-task-btn");
+    changeAddBtn("");
     showPriorityTasks("high");
   } else if (stickyWall) {
     changeAddBtn("new-sticky-btn");
@@ -110,9 +110,7 @@ function handlePageEvent(e) {
     removeProject(e);
   } else if (editProjectButton) {
     editProject(e);
-  }
-  
-  else return;
+  } else return;
 }
 
 function pageEvent() {
@@ -139,22 +137,22 @@ function setActiveTab(tab) {
 
 function createEditBtn(className) {
   const editBtn = document.createElement("button");
-    const editIcon = document.createElement("img");
-    editIcon.alt = "edit-icon";
-    editIcon.classList.add("icon-content", `edit-${className}-icon`);
-    editIcon.src = "../icons/edit.png";
-    editBtn.appendChild(editIcon);
+  const editIcon = document.createElement("img");
+  editIcon.alt = "edit-icon";
+  editIcon.classList.add("icon-content", `edit-${className}-icon`);
+  editIcon.src = "../icons/edit.png";
+  editBtn.appendChild(editIcon);
 
-    return editBtn;
+  return editBtn;
 }
 
 function createDeleteBtn(className) {
   const deleteBtn = document.createElement("button");
-    const deleteIcon = document.createElement("img");
-    deleteIcon.alt = "delete-icon";
-    deleteIcon.classList.add("icon-content", `delete-${className}-icon`);
-    deleteIcon.src = "../icons/delete.png";
-    deleteBtn.appendChild(deleteIcon);
+  const deleteIcon = document.createElement("img");
+  deleteIcon.alt = "delete-icon";
+  deleteIcon.classList.add("icon-content", `delete-${className}-icon`);
+  deleteIcon.src = "../icons/delete.png";
+  deleteBtn.appendChild(deleteIcon);
 
   return deleteBtn;
 }
@@ -169,5 +167,5 @@ export {
   closeFormPopup,
   resetForm,
   createDeleteBtn,
-  createEditBtn
+  createEditBtn,
 };

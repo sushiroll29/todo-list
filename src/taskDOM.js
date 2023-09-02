@@ -64,11 +64,19 @@ function createTaskContainer(task) {
     ? (taskContainerDate.textContent = `Due on ${formatDate(task.dueDate)}`)
     : (taskContainerDate.textContent = `No due date`);
 
-  const taskContainerPriority = document.createElement("p");
-  taskContainerPriority.classList.add("task-container-priority", "tc-element");
-  taskContainerPriority.textContent = `Priority: ${task.priority}`;
+  switch (task.priority) {
+    case "low":
+      taskContainer.style.borderLeft = "3px solid #a7d489";
+      break;
+    case "medium":
+      taskContainer.style.borderLeft = "3px solid #f7c45d";
+      break;
+    case "high":
+      taskContainer.style.borderLeft = "3px solid #f98c82";
+      break;
+  }
 
-  const taskContainerDeleteBtn = createDeleteBtn('task');
+  const taskContainerDeleteBtn = createDeleteBtn("task");
   taskContainerDeleteBtn.classList.add(
     "delete-task-btn",
     "tc-element",
@@ -88,7 +96,7 @@ function createTaskContainer(task) {
     taskContainerCompleteBtn.classList.add("complete-btn", "tc-element");
     taskContainerCompleteBtn.textContent = `Mark completed`;
 
-    const taskContainerEditBtn = createEditBtn('task');
+    const taskContainerEditBtn = createEditBtn("task");
     taskContainerEditBtn.classList.add(
       "edit-task-btn",
       "tc-element",
@@ -97,7 +105,6 @@ function createTaskContainer(task) {
 
     taskContainerRight.append(
       taskContainerDate,
-      taskContainerPriority,
       taskContainerEditBtn,
       taskContainerDeleteBtn,
       taskContainerArrowBtn
@@ -116,7 +123,6 @@ function createTaskContainer(task) {
 
     taskContainerRight.append(
       taskContainerDate,
-      taskContainerPriority,
       taskContainerDeleteBtn,
       taskContainerArrowBtn
     );
@@ -352,7 +358,6 @@ function showCompletedTasks() {
   clearScreen();
   setActiveTab("#completed");
   getCompletedTasks();
-  // createCollapsibleTaskContainer();
 }
 
 function sortTasksByDate() {
@@ -377,7 +382,6 @@ function deleteAllTasksInProject(selectedProject) {
   saveToLocalStorage("tasks", tasks);
 }
 
-
 function showCollapsedContent(e) {
   const selectedTaskElement = e.target.closest(".task-container");
   selectedTaskElement.classList.toggle("coll-active");
@@ -390,6 +394,13 @@ function showCollapsedContent(e) {
   }
 }
 
+function createPageTitle(title) {
+  const parentContainer = document.querySelector(".show-items");
+  const pageTitle = document.createElement("h2");
+  pageTitle.textContent = `${title}`;
+  pageTitle.classList.add("page-title");
+  parentContainer.appendChild(pageTitle);
+}
 
 export {
   createTaskContainer,
