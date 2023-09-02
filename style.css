@@ -24,7 +24,7 @@ body {
   /* border: 1px solid var(--task-container-color); */
   background-color: var(--task-container-color);
   border-radius: 0.5rem;
-  margin: 5px 0;
+  margin: 0.5rem 0;
   padding: 1rem;
 }
 
@@ -136,6 +136,8 @@ button:hover {
 
 li.project-list-item {
   font-weight: normal;
+  display: flex;
+  justify-content: space-between;
 }
 
 li.project-list-item:hover {
@@ -240,7 +242,7 @@ button#high-priority.active {
 #new-project-btn {
   margin-top: -1.5rem;
   border-radius: 0.5rem;
-  padding: 0.3rem 0;
+  padding: 0.4rem 0;
   border: 1px solid var(--active-button-color);
   background: transparent;
   color: rgba(58, 58, 58, 0.6);
@@ -270,6 +272,12 @@ button#high-priority.active {
   border-radius: 0.5rem;
 }
 
+.cancel-btn,
+.save-btn,
+.add-btn {
+  padding: 0.1rem;
+}
+
 .cancel-btn:hover,
 .save-btn:hover,
 .add-btn:hover {
@@ -286,6 +294,8 @@ button#high-priority.active {
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  height: 15rem;
+  border-radius: 0.5rem;
 }
 
 .sticky-btn-area {
@@ -293,7 +303,8 @@ button#high-priority.active {
 }
 
 .task-container-right button,
-.sticky-btn-area button {
+.sticky-btn-area button,
+.list-item-btns button {
   border: none;
   background: transparent;
 }
@@ -340,7 +351,7 @@ header {
   color: rgba(58, 58, 58, 0.6);
   border: none;
   border-radius: 0.5rem;
-  margin: 5px 0;
+  margin: 1rem 0;
   padding: 1rem;
   width: 100%;
   text-align: start;
@@ -348,6 +359,23 @@ header {
 
 .add-icon {
   width: 0.5rem;
+}
+
+.list-item-btns {
+  display: inline flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.list-item-btns button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sticky-container-title {
+  font-size: 1.3rem;
+  font-weight: 500;
 }
 
 @keyframes changeColor {
