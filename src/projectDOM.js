@@ -5,6 +5,8 @@ import {
   clearScreen,
   changeAddBtn,
   setActiveTab,
+  createEditBtn,
+  createDeleteBtn,
 } from "./DOMmanipulation";
 import { project } from "./project";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
@@ -24,7 +26,22 @@ function createProjectListItem(project) {
   const listItem = document.createElement("li");
   listItem.classList.add("project-list-item");
   listItem.id = project.id;
-  listItem.textContent = project.title;
+  // listItem.textContent = project.title;
+
+  const listItemTitle = document.createElement("span");
+  listItemTitle.textContent = project.title;
+
+  const listItemButtons = document.createElement("div");
+  listItemButtons.classList.add("list-item-btns");
+  const listItemDeleteBtn = createDeleteBtn("project");
+  // listItemDeleteBtn.classList.add("delete-project-btn");
+  // listItemDeleteBtn.textContent = `Delete`;
+  const listItemEditBtn = createEditBtn("project");
+  // listItemEditBtn.classList.add("edit-project-btn");
+  // listItemEditBtn.textContent = `Edit`;
+
+  listItemButtons.append(listItemEditBtn, listItemDeleteBtn);
+  listItem.append(listItemTitle, listItemButtons);
 
   return listItem;
 }
@@ -112,7 +129,7 @@ function openProject(selectedProject, selectedProjectElement) {
   clearScreen();
   changeAddBtn("new-task-btn");
   setActiveTab(`.project-list-item[id="${selectedProjectElement.id}"]`);
-  showItems.appendChild(createProjectContainer(selectedProject));
+  // showItems.appendChild(createProjectContainer(selectedProject));
   showTasksInProject(selectedProject);
 }
 
@@ -140,10 +157,10 @@ function toggleAddNewProjectButton() {
 function removeProject(e) {
   const projectList = document.querySelectorAll(".project-list-item");
   let projectListArr = Array.from(projectList);
-  const projectId = e.target.parentNode.id;
+  const projectId = e.target.closest(".project-list-item").id;
   let selectedProjectElement = findItemById(projectListArr, projectId);
   let selectedProject = findItemById(projects, projectId);
-  e.target.parentNode.remove();
+  e.target.closest(".project-list-item").remove();
   projectListArr = projectListArr.filter(
     (project) => project != selectedProjectElement
   );
@@ -158,7 +175,7 @@ function removeProject(e) {
 }
 
 function editProject(e) {
-  const projectId = e.target.parentNode.id;
+  const projectId = e.target.closest(".project-list-item").id;
   let selectedProject = findItemById(projects, projectId);
   const editForm = document.querySelector("#edit-project-form");
   const cancelButton = editForm.querySelector("#cancel-edit-btn");

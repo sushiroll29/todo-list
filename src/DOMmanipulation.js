@@ -54,8 +54,8 @@ function handlePageEvent(e) {
   const timeAll = e.target.matches("#time-active");
 
   const newProject = e.target.matches("#new-project-btn");
-  const deleteProjectButton = e.target.matches(".delete-project-btn");
-  const editProjectButton = e.target.matches(".edit-project-btn");
+  const deleteProjectButton = e.target.matches(".delete-project-icon");
+  const editProjectButton = e.target.matches(".edit-project-icon");
 
   const stickyWall = e.target.matches("#sticky-wall");
   const deleteStickyButton = e.target.matches(".delete-sticky-icon");
