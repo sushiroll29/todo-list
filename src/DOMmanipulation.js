@@ -8,6 +8,7 @@ import {
   removeTask,
   toggleComplete,
   showCollapsedContent,
+  checkNoTasks,
 } from "./taskDOM";
 import { showStickyWall, editSticky, removeSticky } from "./stickyDOM";
 import { addNewProject, editProject, removeProject } from "./projectDOM";
@@ -68,6 +69,7 @@ function handlePageEvent(e) {
 
   if (deleteTaskButton) {
     removeTask(e);
+    checkNoTasks();
   } else if (editTaskButton) {
     editTask(e);
   } else if (arrowTaskButton) {

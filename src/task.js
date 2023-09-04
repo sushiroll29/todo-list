@@ -13,7 +13,7 @@ function todo(id, title, description, dueDate, priority, completed, projectId) {
     dueDate,
     priority,
     completed: false,
-    projectId
+    projectId,
   };
 }
 

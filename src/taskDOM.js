@@ -219,12 +219,15 @@ function showTodayTasks() {
   clearScreen();
   setActiveTab("#time-today");
   getTodayTasks();
+  checkNoTasks();
 }
 
 function showUpcomingTasks() {
+  const showItems = document.querySelector(".show-items");
   clearScreen();
   setActiveTab("#time-upcoming");
   getUpcomingWeekTasks();
+  checkNoTasks();
 }
 
 function showActiveTasks() {
@@ -239,12 +242,28 @@ function showActiveTasks() {
     }
   });
   addNewTask();
+  checkNoTasks();
 }
 
 function showPriorityTasks(priorityType) {
   clearScreen();
   setActiveTab(`#${priorityType}-priority`);
   getPriorityTasks(`${priorityType}`);
+}
+
+function checkNoTasks() {
+  const showTasks = document.querySelector(".show-items");
+
+  if (!showTasks.textContent) {
+    const textContainer = document.createElement("div");
+    textContainer.classList.add("no-tasks-container");
+    const text = document.createElement("h2");
+    text.classList.add("no-tasks-text");
+    text.textContent = `No tasks`;
+
+    textContainer.appendChild(text);
+    showTasks.appendChild(textContainer);
+  }
 }
 
 function removeTask(e) {
@@ -415,4 +434,5 @@ export {
   showTasksInProject,
   deleteAllTasksInProject,
   showCollapsedContent,
+  checkNoTasks
 };
