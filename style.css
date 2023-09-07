@@ -119,9 +119,10 @@ button:hover {
   gap: 0.5rem;
 }
 
-.task-container-date {
+/* .task-container-date {
+ this changes the alignment
   width: 10rem;
-}
+} */
 
 .task-container-priority {
   width: 8rem;
@@ -288,7 +289,7 @@ button#high-priority.active {
 .show-stickies {
   text-align: center;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   gap: 1rem;
 }
 
@@ -296,7 +297,9 @@ button#high-priority.active {
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  height: 15rem;
+  align-items: flex-start;
+  /* justify-content: flex-start; */
+  height: 14rem;
   border-radius: 0.5rem;
 }
 
@@ -387,7 +390,7 @@ span > img:hover {
 
 .show-items {
   position: relative;
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   /* margin-top: 1rem; */
   padding-top: 0.5rem;
@@ -396,7 +399,7 @@ span > img:hover {
   position: absolute;
   bottom: 50%;
   left: 50%;
-  transform: translate(-50%, 0%);
+  transform: translate(-50%, calc(40vh));
 }
 
 .no-tasks-container .no-tasks-text {
