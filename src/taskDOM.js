@@ -377,6 +377,7 @@ function showCompletedTasks() {
   clearScreen();
   setActiveTab("#completed");
   getCompletedTasks();
+  checkNoTasks();
 }
 
 function sortTasksByDate() {
