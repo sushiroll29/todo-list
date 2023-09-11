@@ -15,12 +15,20 @@ import { addNewProject, editProject, removeProject } from "./projectDOM";
 
 function openFormPopup(formType) {
   const formPopup = document.querySelector(`#${formType}`);
+  const body = document.querySelector(`body`);
   formPopup.style.display = "block";
+  formPopup.classList.add("open");
+  if (!formPopup.classList.contains("no-blur")) {
+    body.classList.add("blur");
+  }
 }
 
 function closeFormPopup(formType) {
   const formPopup = document.querySelector(`#${formType}`);
+  const body = document.querySelector(`body`);
   formPopup.style.display = "none";
+  formPopup.classList.remove("open");
+  body.classList.remove("blur");
 }
 
 function resetForm(formId) {

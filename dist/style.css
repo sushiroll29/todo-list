@@ -20,6 +20,14 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
+fieldset {
+  border: 0;
+}
+
+fieldset > legend {
+  margin-bottom: 0.3rem;
+}
+
 .task-container {
   /* border: 1px solid var(--task-container-color); */
   background-color: var(--task-container-color);
@@ -28,12 +36,76 @@ body {
   padding: 1rem;
 }
 
-#new-task {
-  display: none;
-  border: 3px solid red;
+#task-display {
+  position: relative;
 }
 
-#edit-task {
+#new-task-form,
+#edit-task-form,
+#new-sticky-form,
+#edit-sticky-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-buttons {
+  align-self: center;
+  margin-top: 20px;
+}
+
+#new-task,
+#edit-task,
+#new-sticky,
+#edit-sticky {
+  display: none;
+  border: 3px solid red;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  border: 1px solid var(--active-button-color);
+  border-radius: 15px;
+  padding: 20px 50px;
+  background-color: rgb(249, 249, 249);
+  transition: all 1s ease-in;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  /* grid-template-columns: max-content 80%; */
+  gap: 1rem;
+  align-items: left;
+}
+
+.form-fields > label {
+  /* font-size: 14px; */
+  font-weight: normal;
+  /* text-align: right; */
+}
+
+.form-fields input[type="text"],
+.form-fields input[type="date"] {
+  outline: none;
+  appearance: none;
+  height: 35px;
+  width: 100%;
+  line-height: 35px;
+  padding: 2px 13px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-size: 13px;
+  border: 1px solid var(--active-button-color);
+}
+
+.blur > *:not(.open) {
+  filter: blur(1px) opacity(50%);
+  pointer-events: none;
+}
+
+/* #edit-task {
   display: none;
   border: 3px solid greenyellow;
 }
@@ -46,7 +118,7 @@ body {
 #edit-sticky {
   display: none;
   border: 3px solid cyan;
-}
+} */
 
 #edit-project {
   display: none;
@@ -264,20 +336,27 @@ button#high-priority.active {
   width: 100%;
   border: 1px solid var(--active-button-color);
   border-radius: 0.5rem;
-  padding: 0.3rem 0.5rem;
+  padding: 0.4rem 0.5rem;
 }
 
-#new-project .form-button button {
+#new-project .form-buttons button {
   width: 49%;
   margin-top: 0.5rem;
   border: 1px solid var(--active-button-color);
   border-radius: 0.5rem;
 }
 
+#new-project .form-buttons {
+  margin-top: 0;
+}
+
 .cancel-btn,
 .save-btn,
 .add-btn {
-  padding: 0.1rem;
+  padding: 0.1rem 1rem;
+  border: 1px solid var(--active-button-color);
+  border-radius: 0.5rem;
+  width: 100px;
 }
 
 .cancel-btn:hover,
@@ -381,6 +460,7 @@ header {
 .sticky-container-title {
   font-size: 1.3rem;
   font-weight: 500;
+  text-align: left;
 }
 
 button > img:hover,
