@@ -88,7 +88,7 @@ function createTaskContainer(task) {
   const arrowIcon = document.createElement("img");
   arrowIcon.alt = "arrow-down-icon";
   arrowIcon.classList.add("icon-content", "arrow-icon");
-  arrowIcon.src = "./icons/down-arrow.png";
+  arrowIcon.src = "./assets/down-arrow.png";
   taskContainerArrowBtn.appendChild(arrowIcon);
 
   if (!task.completed) {
