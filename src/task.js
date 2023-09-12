@@ -23,7 +23,7 @@ function getTodayTasks() {
   let taskList = getFromLocalStorage("tasks");
   taskList.forEach((task) => {
     const taskDate = Date.parse(task.dueDate);
-    if (todayDate === taskDate) {
+    if (todayDate === taskDate && !task.completed) {
       showTasks.appendChild(createTaskContainer(task));
       return true;
     } else return false;

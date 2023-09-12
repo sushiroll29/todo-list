@@ -157,8 +157,6 @@ function addNewTask() {
 
 function handleNewTaskSubmit(e) {
   e.preventDefault();
-  const showTasks = document.querySelector(".show-items");
-
   const itemId = taskId;
   taskId++;
   const formTaskTitle = document.querySelector("#task-title").value;
@@ -195,7 +193,6 @@ function handleNewTaskSubmit(e) {
 
   if (isProjectTabActive.length > 0) {
     projects = getFromLocalStorage("projects");
-    // console.log(selectedProjectItem)
     findItemById(projects, selectedProject.id).taskList.push(task.id);
     saveToLocalStorage("projects", projects);
   }
@@ -206,7 +203,6 @@ function handleNewTaskSubmit(e) {
   console.log(tasks);
   saveToLocalStorage("tasks", tasks);
   localStorage.setItem("taskId", taskId);
-  // showTasks.appendChild(createTaskContainer(task));
   closeFormPopup("new-task");
   resetForm("new-task-form");
   isProjectTabActive.length > 0
@@ -222,7 +218,6 @@ function showTodayTasks() {
 }
 
 function showUpcomingTasks() {
-  const showItems = document.querySelector(".show-items");
   clearScreen();
   setActiveTab("#time-upcoming");
   getUpcomingWeekTasks();
@@ -260,7 +255,6 @@ function checkNoTasks() {
     const text = document.createElement("h2");
     text.classList.add("no-tasks-text");
     text.textContent = `No tasks`;
-
     textContainer.appendChild(text);
     showTasks.appendChild(textContainer);
   }
@@ -414,14 +408,6 @@ function showCollapsedContent(e) {
   }
 }
 
-function createPageTitle(title) {
-  const parentContainer = document.querySelector(".show-items");
-  const pageTitle = document.createElement("h2");
-  pageTitle.textContent = `${title}`;
-  pageTitle.classList.add("page-title");
-  parentContainer.appendChild(pageTitle);
-}
-
 export {
   createTaskContainer,
   showActiveTasks,
@@ -435,5 +421,5 @@ export {
   showTasksInProject,
   deleteAllTasksInProject,
   showCollapsedContent,
-  checkNoTasks
+  checkNoTasks,
 };

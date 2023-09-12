@@ -84,8 +84,10 @@ function handlePageEvent(e) {
     showCollapsedContent(e);
   } else if (markCompleteButton) {
     toggleComplete(e, true);
+    checkNoTasks();
   } else if (unmarkCompleteButton) {
     toggleComplete(e, false);
+    checkNoTasks();
   } else if (timeToday) {
     changeAddBtn("");
     showTodayTasks();
