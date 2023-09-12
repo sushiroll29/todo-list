@@ -94,7 +94,6 @@ function createTaskContainer(task) {
   if (!task.completed) {
     const taskContainerCompleteBtn = document.createElement("button");
     taskContainerCompleteBtn.classList.add("complete-btn", "tc-element");
-    taskContainerCompleteBtn.textContent = `Mark completed`;
 
     const taskContainerEditBtn = createEditBtn("task");
     taskContainerEditBtn.classList.add(
@@ -119,7 +118,6 @@ function createTaskContainer(task) {
   } else {
     const taskContainerUnmarkCompleteBtn = document.createElement("button");
     taskContainerUnmarkCompleteBtn.classList.add("unmark-complete-btn");
-    taskContainerUnmarkCompleteBtn.textContent = `Unmark completed`;
 
     taskContainerRight.append(
       taskContainerDate,
@@ -205,9 +203,10 @@ function handleNewTaskSubmit(e) {
   tasks.push(task);
   //tasks get sorted by date every time a new one is added to the list
   sortTasksByDate();
+  console.log(tasks);
   saveToLocalStorage("tasks", tasks);
   localStorage.setItem("taskId", taskId);
-  showTasks.appendChild(createTaskContainer(task));
+  // showTasks.appendChild(createTaskContainer(task));
   closeFormPopup("new-task");
   resetForm("new-task-form");
   isProjectTabActive.length > 0
@@ -249,6 +248,7 @@ function showPriorityTasks(priorityType) {
   clearScreen();
   setActiveTab(`#${priorityType}-priority`);
   getPriorityTasks(`${priorityType}`);
+  checkNoTasks();
 }
 
 function checkNoTasks() {
