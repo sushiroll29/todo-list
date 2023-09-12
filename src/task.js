@@ -21,25 +21,29 @@ function getTodayTasks() {
   const showTasks = document.querySelector(".show-items");
   const todayDate = Date.parse(format(new Date(), "yyyy-MM-dd"));
   let taskList = getFromLocalStorage("tasks");
-  taskList.forEach((task) => {
-    const taskDate = Date.parse(task.dueDate);
-    if (todayDate === taskDate && !task.completed) {
-      showTasks.appendChild(createTaskContainer(task));
-      return true;
-    } else return false;
-  });
+  if (taskList != null) {
+    taskList.forEach((task) => {
+      const taskDate = Date.parse(task.dueDate);
+      if (todayDate === taskDate && !task.completed) {
+        showTasks.appendChild(createTaskContainer(task));
+        return true;
+      } else return false;
+    });
+  }
 }
 
 function getUpcomingWeekTasks() {
   const showTasks = document.querySelector(".show-items");
   let taskList = getFromLocalStorage("tasks");
-  taskList.forEach((task) => {
-    const taskDate = parseISO(task.dueDate);
-    if (!task.completed && checkNextWeek(taskDate)) {
-      showTasks.appendChild(createTaskContainer(task));
-      return true;
-    } else return false;
-  });
+  if (taskList != null) {
+    taskList.forEach((task) => {
+      const taskDate = parseISO(task.dueDate);
+      if (!task.completed && checkNextWeek(taskDate)) {
+        showTasks.appendChild(createTaskContainer(task));
+        return true;
+      } else return false;
+    });
+  }
 }
 
 function checkNextWeek(date) {
@@ -59,23 +63,25 @@ function findTaskById(taskList, taskId) {
 function getPriorityTasks(priorityType) {
   const showTasks = document.querySelector(".show-items");
   let taskList = getFromLocalStorage("tasks");
-
-  taskList.forEach((task) => {
-    if (!task.completed && task.priority === `${priorityType}`) {
-      showTasks.appendChild(createTaskContainer(task));
-    }
-  });
+  if (taskList != null) {
+    taskList.forEach((task) => {
+      if (!task.completed && task.priority === `${priorityType}`) {
+        showTasks.appendChild(createTaskContainer(task));
+      }
+    });
+  }
 }
 
 function getCompletedTasks() {
   const showTasks = document.querySelector(".show-items");
   let taskList = getFromLocalStorage("tasks");
-
-  taskList.forEach((task) => {
-    if (task.completed) {
-      showTasks.appendChild(createTaskContainer(task));
-    }
-  });
+  if (taskList != null) {
+    taskList.forEach((task) => {
+      if (task.completed) {
+        showTasks.appendChild(createTaskContainer(task));
+      }
+    });
+  }
 }
 
 export {
