@@ -20,6 +20,10 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
+button {
+  background-color: transparent;
+}
+
 fieldset {
   border: 0;
 }
@@ -58,7 +62,6 @@ fieldset > legend {
 #new-sticky,
 #edit-sticky {
   display: none;
-  border: 3px solid red;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -132,28 +135,31 @@ fieldset > legend {
   resize: none;
 }
 
-/* #edit-task {
-  display: none;
-  border: 3px solid greenyellow;
+#task-description, #edit-task-description {
+  height: 5rem;
+  outline: none;
+  appearance: none;
+  width: 100%;
+  line-height: 20px;
+  padding: 5px 13px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-size: 13px;
+  border: 1px solid var(--active-button-color);
+  resize: none;
 }
-
-#new-sticky {
-  display: none;
-  border: 3px solid pink;
-}
-
-#edit-sticky {
-  display: none;
-  border: 3px solid cyan;
-} */
 
 #edit-project {
   display: none;
-  border: 3px solid yellow;
+  margin-top: -1.5rem;
 }
 
-.active {
-  background-color: green;
+#edit-project .form-buttons button {
+  width: 49%;
+  /* margin-top: 0.5rem; */
+  border: 1px solid var(--active-button-color);
+  border-radius: 0.5rem;
 }
 
 .completed {
@@ -491,6 +497,11 @@ header {
   text-align: left;
 }
 
+.sticky-container-content {
+  white-space: pre-wrap;
+  text-align: left;
+}
+
 button > img:hover,
 span > img:hover {
   scale: 1.1;
@@ -548,6 +559,7 @@ span > img:hover {
 .task-container-description {
   padding-top: .5rem;
   padding-left: 1.6rem;
+  white-space: pre-wrap;
 }
 
 @keyframes changeColor {

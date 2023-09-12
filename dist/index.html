@@ -12,6 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <link type="image/png" rel="icon" href="../icons/to-do-list.png" />
   </head>
   <body>
     <header>
@@ -69,8 +70,11 @@
         </div>
         <div id="edit-project" class="no-blur">
           <form action="" class="form-container" id="edit-project-form">
-            <label for="edit-project-title">Title</label>
-            <input type="text" id="edit-project-title" required />
+            <div class="form-fields">
+              <input type="text" id="edit-project-title" required />
+            </div>
+            <!-- <label for="edit-project-title">Title</label> -->
+            
             <div class="form-buttons">
               <button type="submit" class="save-btn" id="save-edit-btn">
                 Save
@@ -278,11 +282,12 @@
           <fieldset>
             <legend>Description</legend>
             <!-- <label for="description">Description</label> -->
-            <input
+            <textarea id="task-description" placeholder="Describe your task"></textarea>
+            <!-- <input
               type="text"
               id="task-description"
               placeholder="Describe your task"
-            />
+            /> -->
           </fieldset>
 
           <fieldset>
@@ -346,11 +351,12 @@
 
           <fieldset>
             <legend>Description</legend>
-            <input
+            <textarea id="edit-task-description" placeholder="Describe your task"></textarea>
+            <!-- <input
               type="text"
               id="edit-task-description"
               placeholder="Describe your task"
-            />
+            /> -->
           </fieldset>
 
           <fieldset>

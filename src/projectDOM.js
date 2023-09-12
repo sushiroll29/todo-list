@@ -12,6 +12,7 @@ import { project } from "./project";
 import { saveToLocalStorage, getFromLocalStorage } from "./localStorage";
 import { findItemById, deleteItemById } from "./itemFunctions";
 import {
+  checkNoTasks,
   deleteAllTasksInProject,
   showActiveTasks,
   showTasksInProject,
@@ -131,6 +132,7 @@ function openProject(selectedProject, selectedProjectElement) {
   setActiveTab(`.project-list-item[id="${selectedProjectElement.id}"]`);
   // showItems.appendChild(createProjectContainer(selectedProject));
   showTasksInProject(selectedProject);
+  checkNoTasks();
 }
 
 function projectListEvent() {
@@ -146,8 +148,9 @@ function projectListEvent() {
 function toggleAddNewProjectButton() {
   const newProjectBtn = document.querySelector("#new-project-btn");
   const newProjectPopup = document.querySelector("#new-project");
+  const editProjectPopup = document.querySelector("#edit-project");
 
-  if (newProjectPopup.style.display == "block") {
+  if (newProjectPopup.style.display == "block" || editProjectPopup.style.display == "block") {
     newProjectBtn.style.display = "none";
   } else {
     newProjectBtn.style.display = "block";
@@ -183,10 +186,12 @@ function editProject(e) {
     "click",
     () => {
       closeFormPopup("edit-project");
+      toggleAddNewProjectButton();
     },
     { once: true }
   );
   openFormPopup("edit-project");
+  toggleAddNewProjectButton();
   //fill in form inputs with existing info
   populateProjectForm(selectedProject);
   //update the task based on the new input values
@@ -208,8 +213,9 @@ function handleEditProjectSubmit(projectInfo) {
 
       saveToLocalStorage("projects", projects);
       closeFormPopup("edit-project");
-      updateEditedProject(projectInfo);
+      // updateEditedProject(projectInfo);
       showProjectList();
+      setActiveTab(`.project-list-item[id="${projectInfo.id}"]`);
     },
     { once: true }
   );
