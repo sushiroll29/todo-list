@@ -152,7 +152,7 @@ function createEditBtn(className) {
   const editIcon = document.createElement("img");
   editIcon.alt = "edit-icon";
   editIcon.classList.add("icon-content", `edit-${className}-icon`);
-  editIcon.src = "./icons/edit.png";
+  editIcon.src = "./assets/edit.png";
   editBtn.appendChild(editIcon);
 
   return editBtn;
@@ -163,7 +163,7 @@ function createDeleteBtn(className) {
   const deleteIcon = document.createElement("img");
   deleteIcon.alt = "delete-icon";
   deleteIcon.classList.add("icon-content", `delete-${className}-icon`);
-  deleteIcon.src = "./icons/delete.png";
+  deleteIcon.src = "./assets/delete.png";
   deleteBtn.appendChild(deleteIcon);
 
   return deleteBtn;
