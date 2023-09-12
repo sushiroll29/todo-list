@@ -294,7 +294,7 @@ span > img:hover {
 }
 
 .complete-btn:hover {
-  background: no-repeat center/60% url("../icons/complete.png");
+  background: no-repeat center/60% url("./assets/complete.png");
 }
 
 .unmark-complete-btn {
@@ -303,7 +303,7 @@ span > img:hover {
   border-radius: 50%;
   border: 1px solid var(--font-color);
   margin-right: 0.6rem;
-  background: no-repeat center/60% url("../icons/complete.png");
+  background: no-repeat center/60% url("./assets/complete.png");
 }
 
 .unmark-complete-btn:hover {
